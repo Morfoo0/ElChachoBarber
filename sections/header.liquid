@@ -1,10 +1,10 @@
 
 
 {% liquid
-  assign order = 'logo,menu,localization,ezfy_desktop_search,drawer_search,actions'
+  assign order = 'logo,menu,localization,drawer_search,actions'
 
   if shop.customer_accounts_enabled
-    assign order = 'drawer_search,logo,menu,localization,ezfy_desktop_search,actions'
+    assign order = 'drawer_search,logo,menu,localization,actions'
   endif
 
   assign rows = 'top,bottom' | split: ','
@@ -132,13 +132,21 @@
         assign order = 'logo,search,menu,localization,drawer_search,actions'
       endif
     endif
+endif
+
+  # On the home page, add a centered inline search bar. The regular search action is
+  # kept for mobile and hidden on desktop (see stylesheet) so the bar replaces it.
+  if template.name == 'index'
+    assign order = order | append: ',home_search'
+    capture home_search
+      render 'header-search-bar'
+    endcapture
+  else
+    assign home_search = ''
   endif
+
 capture search
   render 'search', style: search_style, class: search_class, display_style: section.settings.actions_display_style
-endcapture
-
-capture ezfy_desktop_search
-  render 'ezfy-header-search-desktop'
 endcapture
 
   # Skip drawer search under specific conditions:
@@ -354,6 +362,9 @@ endcapture
   {% endif %}
   data-skip-node-update
   data-scroll-direction="none"
+  {% if template.name == 'index' %}
+    data-home-search-bar
+  {% endif %}
   {% if section.settings.menu_row == 'top' and bottom_row_blocks.size > 0 %}
     data-submenu-overlap-bottom-row
   {% endif %}
@@ -458,8 +469,8 @@ endcapture
         actions: actions,
         localization: localization_markup,
         search: search,
-  ezfy_desktop_search: ezfy_desktop_search,
-  drawer_search: drawer_search
+        home_search: home_search,
+        drawer_search: drawer_search
 %}
     {% endcapture %}
 
@@ -826,6 +837,14 @@ endcapture
 
     header-menu:only-child .overflow-menu::part(list) {
       justify-content: center;
+    }
+  }
+
+  /* On the home page the centered search bar replaces the search action on desktop.
+     On mobile the search action is kept so the drawer/modal search still works. */
+  @media screen and (min-width: 750px) {
+    #header-component[data-home-search-bar] .header__columns .search-action {
+      display: none;
     }
   }
 

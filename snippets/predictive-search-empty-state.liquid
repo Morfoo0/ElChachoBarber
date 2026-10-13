@@ -4,13 +4,14 @@
   @param {number} shadow_opacity - shadow opacity for the empty state container shadow
   @param {string} products_test_id - a playwright test id, used to differentiate empty state from 'real' search results
   @param {boolean} [load_empty_state] - Load the empty state or not
+  @param {string} [id] - Optional id for the results container. Defaults to 'predictive-search-results'.
 
   @example
   {% render 'predictive-search-empty-state', shadow_opacity: 0.1, products_test_id: 'empty-state' %}
 {% enddoc %}
 
 <div
-  id="predictive-search-results"
+  id="{{ id | default: 'predictive-search-results' }}"
   class="predictive-search-dropdown"
   role="listbox"
   aria-expanded="true"

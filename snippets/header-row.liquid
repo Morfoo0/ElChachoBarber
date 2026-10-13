@@ -11,7 +11,7 @@
   @param {string} [actions] - Captured HTML for header actions (cart, account buttons, etc.)
   @param {string} [localization] - Captured HTML for language/country selector
   @param {string} [search] - Captured HTML for search input
-  @param {string} [ezfy_desktop_search] - Captured HTML for desktop search
+  @param {string} [home_search] - Captured HTML for the home page centered search bar
   @param {string} [drawer_search] - Captured HTML for drawer-based search
 {% enddoc %}
 
@@ -35,7 +35,7 @@ case item
   when 'actions'
     assign item_column = 'right'
 
-  when 'ezfy_search'
+  when 'home_search'
     assign item_column = 'center'
 endcase
 
@@ -86,8 +86,8 @@ endcase
               {{ localization }}
             {% when 'search' %}
               {{ search }}
-              {% when 'ezfy_search' %}
-              {{ ezfy_desktop_search }}
+            {% when 'home_search' %}
+              {{ home_search }}
             {% when 'drawer_search' %}
               {{ drawer_search }}
             {% when 'actions' %}
