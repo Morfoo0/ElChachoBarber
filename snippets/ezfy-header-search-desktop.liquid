@@ -1,0 +1,115 @@
+
+{% comment %}
+  Always visible search bar by ezfycode.com
+{% endcomment %}
+
+{% assign predictive_search_height = 500 %}
+{% assign search_box_width = 350 %}
+
+<div class="EzfyHeaderSearch EzfyHeaderSearch--mobile">
+  {%- if settings.predictive_search_enabled -%}
+    <predictive-search class="search-modal__form" data-loading-text="{{ 'accessibility.loading' | t }}">
+  {%- else -%}
+    <search-form class="search-modal__form">
+  {%- endif -%}
+  <form action="{{ routes.search_url }}" method="get" role="search" class="search search-modal__form">
+    <div class="field">
+      <input
+        class="search__input field__input"
+        id="{{ input_id }}"
+        type="search"
+        name="q"
+        value="{{ search.terms | escape }}"
+        placeholder="{{ 'general.search.search' | t }}"
+        {%- if settings.predictive_search_enabled -%}
+          role="combobox"
+          aria-expanded="false"
+          aria-owns="predictive-search-results"
+          aria-controls="predictive-search-results"
+          aria-haspopup="listbox"
+          aria-autocomplete="list"
+          autocorrect="off"
+          autocomplete="off"
+          autocapitalize="off"
+          spellcheck="false"
+        {%- endif -%}
+      >
+      <label class="field__label" for="{{ input_id }}">{{ 'general.search.search' | t }}</label>
+      <input type="hidden" name="options[prefix]" value="last">
+      <button
+        type="reset"
+        class="reset__button field__button{% if search.terms == blank %} hidden{% endif %}"
+        aria-label="{{ 'general.search.reset' | t }}"
+      >
+        <svg class="icon icon-close" aria-hidden="true" focusable="false">
+          <use xlink:href="#icon-reset">
+        </svg>
+      </button>
+      <button class="search__button field__button" aria-label="{{ 'general.search.search' | t }}">
+        <svg class="icon icon-search" aria-hidden="true" focusable="false">
+          <use href="#icon-search">
+        </svg>
+      </button>
+    </div>
+
+    {%- if settings.predictive_search_enabled -%}
+      <div class="predictive-search predictive-search--header" tabindex="-1" data-predictive-search>
+        <div class="predictive-search__loading-state">
+          <svg
+            aria-hidden="true"
+            focusable="false"
+            class="spinner"
+            viewBox="0 0 66 66"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <circle class="path" fill="none" stroke-width="6" cx="33" cy="33" r="30"></circle>
+          </svg>
+        </div>
+      </div>
+
+      <span class="predictive-search-status visually-hidden" role="status" aria-hidden="true"></span>
+    {%- endif -%}
+  </form>
+  {%- if settings.predictive_search_enabled -%}
+    </predictive-search>
+  {%- else -%}
+    </search-form>
+  {%- endif -%}
+</div>
+<div class="EzfyHeaderSearch--desktop">
+  {{ search }}
+</div>
+<style>
+/* mobile */
+@media (max-width: 990px){
+  .EzfyHeaderSearch--mobile{
+  display: block;
+  }
+  
+  .EzfyHeaderSearch--desktop{
+  display: none;
+  }
+  
+  .EzfyHeaderSearch--mobile  {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  padding-bottom: 10px;
+  margin-top: 20px;
+  }
+  
+  body{
+  overflow-x: hidden;
+  }
+
+  [id] .header{
+     display:flex !important;
+  flex-wrap: wrap;
+  justify-content:space-between;
+}
+
+  .header__search{
+    display: none !important;
+  }
+
+}
+</style>

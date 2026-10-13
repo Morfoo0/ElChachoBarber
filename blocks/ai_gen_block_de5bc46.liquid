@@ -1,0 +1,110 @@
+{% doc %}
+  @prompt
+    promocional horizontal que funcione como acceso directo a n combo especial
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-promo-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+  .ai-promo-{{ ai_gen_id }}__link {
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+    padding: 20px 26px;
+    border-radius: {{ block.settings.corner_radius }}px;
+    background: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    text-decoration: none;
+  }
+  .ai-promo-{{ ai_gen_id }}__copy { min-width: 0; }
+  .ai-promo-{{ ai_gen_id }}__eyebrow {
+    display: block;
+    margin: 0 0 4px;
+    color: {{ block.settings.text_color }};
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+  .ai-promo-{{ ai_gen_id }}__title {
+    margin: 0;
+    color: {{ block.settings.text_color }};
+    font-size: {{ block.settings.title_size }}px;
+    line-height: 1.2;
+    font-weight: 700;
+  }
+  .ai-promo-{{ ai_gen_id }}__description {
+    margin: 5px 0 0;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    line-height: 1.45;
+  }
+  .ai-promo-{{ ai_gen_id }}__cta {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    min-height: 44px;
+    padding: 10px 18px;
+    border: 1px solid {{ block.settings.text_color }};
+    border-radius: 999px;
+    color: {{ block.settings.text_color }};
+    font-size: 14px;
+    font-weight: 700;
+  }
+  .ai-promo-{{ ai_gen_id }}__link:focus-visible { outline: 3px solid {{ block.settings.text_color }}; outline-offset: 4px; }
+  .ai-promo-{{ ai_gen_id }}__arrow { font-size: 20px; line-height: 1; }
+  @media screen and (max-width: 600px) {
+    .ai-promo-{{ ai_gen_id }}__link { align-items: flex-start; flex-direction: column; gap: 14px; padding: 18px; }
+    .ai-promo-{{ ai_gen_id }}__title { font-size: {{ block.settings.title_size | at_most: 28 }}px; }
+  }
+{% endstyle %}
+
+<div class="ai-promo-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  {% if block.settings.promo_link != blank %}
+    <a class="ai-promo-{{ ai_gen_id }}__link" href="{{ block.settings.promo_link }}" {% if block.settings.open_new_tab %}target="_blank" rel="noopener noreferrer"{% endif %}>
+  {% else %}
+    <div class="ai-promo-{{ ai_gen_id }}__link">
+  {% endif %}
+      <div class="ai-promo-{{ ai_gen_id }}__copy">
+        {% if block.settings.eyebrow != blank %}<span class="ai-promo-{{ ai_gen_id }}__eyebrow">{{ block.settings.eyebrow | escape }}</span>{% endif %}
+        <h2 class="ai-promo-{{ ai_gen_id }}__title">{{ block.settings.title | escape }}</h2>
+        {% if block.settings.description != blank %}<p class="ai-promo-{{ ai_gen_id }}__description">{{ block.settings.description | escape }}</p>{% endif %}
+      </div>
+      <span class="ai-promo-{{ ai_gen_id }}__cta">{{ block.settings.button_label | escape }} <span class="ai-promo-{{ ai_gen_id }}__arrow" aria-hidden="true">→</span></span>
+  {% if block.settings.promo_link != blank %}
+    </a>
+  {% else %}
+    </div>
+  {% endif %}
+</div>
+
+{% schema %}
+{
+  "name": "Promo de combo",
+  "settings": [
+    { "type": "text", "id": "eyebrow", "label": "Texto superior", "default": "PROMOCIÓN ESPECIAL" },
+    { "type": "text", "id": "title", "label": "Título", "default": "Descubre nuestro combo especial" },
+    { "type": "text", "id": "description", "label": "Descripción", "default": "Todo lo que necesitas, en una sola oferta." },
+    { "type": "text", "id": "button_label", "label": "Texto del botón", "default": "Ver combo" },
+    { "type": "url", "id": "promo_link", "label": "Enlace al combo" },
+    { "type": "checkbox", "id": "open_new_tab", "label": "Abrir en una pestaña nueva", "default": false },
+    { "type": "range", "id": "desktop_width_percent", "label": "Ancho en escritorio", "min": 50, "max": 100, "step": 5, "unit": "%", "default": 100 },
+    { "type": "color", "id": "background_color", "label": "Fondo", "default": "#5F0203" },
+    { "type": "color", "id": "text_color", "label": "Texto", "default": "#FFFFFF" },
+    { "type": "range", "id": "title_size", "label": "Tamaño del título", "min": 18, "max": 40, "step": 2, "unit": "px", "default": 28 },
+    { "type": "range", "id": "corner_radius", "label": "Redondeo", "min": 0, "max": 32, "step": 2, "unit": "px", "default": 8 }
+  ],
+  "presets": [{ "name": "Promo de combo" }],
+  "tag": null,
+  "class": "promo-combo-block"
+}
+{% endschema %}
