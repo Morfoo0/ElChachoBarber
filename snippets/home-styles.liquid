@@ -1,0 +1,14 @@
+{% comment %}
+  Ajustes de estilo de la página principal (home).
+  - El carrusel del banner muestra la imagen completa (sin recortes).
+  El fondo de página se mantiene en blanco (valor por defecto del tema).
+{% endcomment %}
+
+{% style %}
+  /* Carrusel del home: mostrar la imagen completa (sin recortes), centrada */
+  #MainContent[data-template='index'] slideshow-slide .slide__image,
+  #MainContent[data-template='index'] slideshow-slide .slide__video,
+  #MainContent[data-template='index'] slideshow-slide .slide__video-poster {
+    object-fit: contain;
+  }
+{% endstyle %}

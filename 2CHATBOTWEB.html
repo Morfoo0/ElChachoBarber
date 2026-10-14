@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hands-on Lab: Web App con Streamlit, Gemini API y GitHub</title>
+    <style>
+        :root {
+            --bg-color: #131314;
+            --surface-color: #1e1f20;
+            --surface-variant: #28292a;
+            --border-color: #444746;
+            --text-primary: #e3e2e6;
+            --text-secondary: #c4c7c5;
+            --google-blue: #a8c7fa;
+            --google-blue-dark: #004a77;
+            --google-green: #6dd58c;
+            --google-green-dark: #0f5223;
+            --google-yellow: #f8d067;
+            --google-red: #f2b8b5;
+            --code-bg: #0e0e0e;
+            --shadow: 0 4px 12px rgba(0,0,0,0.5);
+        }
+
+        body {
+            font-family: 'Google Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+        }
+
+        .top-bar {
+            background-color: var(--surface-color);
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .brand-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .brand-logo {
+            width: 24px;
+            height: 24px;
+        }
+
+        .brand-title {
+            font-size: 1.1rem;
+            font-weight: 500;
+            color: var(--text-primary);
+            margin: 0;
+        }
+
+        .control-btn {
+            background-color: var(--surface-variant);
+            color: var(--google-blue);
+            border: 1px solid var(--border-color);
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .control-btn:hover {
+            background-color: #333538;
+            border-color: var(--google-blue);
+        }
+
+        .layout-container {
+            max-width: 960px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .lab-header-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+
+        .lab-badge-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 16px;
+        }
+
+        .lab-badge {
+            font-size: 0.75rem;
+            font-weight: 700;
+            padding: 6px 12px;
+            border-radius: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-hands-on {
+            background-color: var(--google-blue-dark);
+            color: var(--google-blue);
+            border: 1px solid #1f659d;
+        }
+
+        .badge-duration {
+            background-color: var(--surface-variant);
+            color: var(--text-secondary);
+            border: 1px solid var(--border-color);
+        }
+
+        .badge-docente {
+            background-color: #3b2d00;
+            color: var(--google-yellow);
+            border: 1px solid #6e5400;
+        }
+
+        .lab-title {
+            font-size: 1.8rem;
+            margin: 0 0 12px 0;
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .lab-description {
+            color: var(--text-secondary);
+            margin: 0;
+            font-size: 1rem;
+        }
+
+        .step-card {
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 28px;
+            margin-bottom: 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .step-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 16px;
+        }
+
+        .step-number {
+            background-color: var(--google-blue);
+            color: #000000;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            margin: 0;
+            font-size: 1.3rem;
+            font-weight: 500;
+            color: #ffffff;
+        }
+
+        ol, ul {
+            padding-left: 22px;
+            color: var(--text-primary);
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .callout {
+            border-radius: 8px;
+            padding: 16px 20px;
+            margin: 16px 0;
+            font-size: 0.95rem;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .callout-info {
+            background-color: #002238;
+            border: 1px solid #004a77;
+            color: #c2e7ff;
+        }
+
+        .callout-warning {
+            background-color: #312000;
+            border: 1px solid #6e4c00;
+            color: #ffe088;
+        }
+
+        .callout-danger {
+            background-color: #3c1618;
+            border: 1px solid #8c1d18;
+            color: #f2b8b5;
+        }
+
+        .code-container {
+            position: relative;
+            background-color: var(--code-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            margin: 16px 0;
+            overflow: hidden;
+        }
+
+        .code-header {
+            background-color: var(--surface-variant);
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            font-family: monospace;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .copy-btn {
+            background-color: var(--surface-color);
+            color: var(--google-blue);
+            border: 1px solid var(--border-color);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .copy-btn:hover {
+            background-color: var(--google-blue-dark);
+            color: #ffffff;
+        }
+
+        pre {
+            margin: 0;
+            padding: 16px;
+            overflow-x: auto;
+            font-family: 'Fira Code', Consolas, Monaco, 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: #e6edf3;
+            line-height: 1.5;
+        }
+
+        code {
+            background-color: var(--surface-variant);
+            color: var(--google-blue);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-size: 0.9em;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+        }
+
+        footer {
+            text-align: center;
+            padding: 24px;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            border-top: 1px solid var(--border-color);
+            margin-top: 40px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="top-bar">
+        <div class="brand-container">
+            <svg class="brand-logo" viewBox="0 0 24 24" fill="none">
+                <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96z" fill="#a8c7fa"/>
+            </svg>
+            <h1 class="brand-title">CLOUD & AI Labs • Opción 2</h1>
+        </div>
+        <button class="control-btn" id="fullscreenBtn" onclick="toggleFullScreen()">
+            <span id="fullscreenIcon">⛶</span> <span id="fullscreenText">Pantalla Completa</span>
+        </button>
+    </div>
+
+    <div class="layout-container">
+
+        <div class="lab-header-card">
+            <div class="lab-badge-row">
+                <span class="lab-badge badge-hands-on">Hands-on Lab: Web App & GitHub</span>
+                <span class="lab-badge badge-duration">⏱️ Tiempo estimado: 40 min</span>
+                <span class="lab-badge badge-docente">Docente: Dra. Aiblis Susej Herrera Palafox</span>
+            </div>
+            <h1 class="lab-title">Construcción y Despliegue de una Aplicación Web Inteligente en la Nube</h1>
+            <p class="lab-description">
+                En esta práctica de laboratorio transformarás tu agente inteligente en una <strong>Aplicación Web interactiva profesional</strong>. Aprenderás a construir interfaces conversacionales con Streamlit, gestionar estados en memoria (<code>st.session_state</code>), publicar tu código en GitHub de forma segura y desplegar gratis en <strong>Streamlit Community Cloud</strong> para construir tu portafolio profesional.
+            </p>
+        </div>
+
+        <!-- STEP 1 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">1</div>
+                <h2 class="step-title">¿Qué es Streamlit y por qué lo utilizaremos?</h2>
+            </div>
+            <p><strong>Streamlit</strong> es un framework de código abierto que permite convertir scripts de Python en aplicaciones web interactivas y atractivas en cuestión de minutos, <strong>sin necesidad de escribir código HTML, CSS o JavaScript</strong>.</p>
+            
+            <p><strong>Ventajas clave para ingeniería:</strong></p>
+            <ul>
+                <li><strong>Manejo nativo de UI de Chat:</strong> Componentes integrados como <code>st.chat_message()</code> y <code>st.chat_input()</code>.</li>
+                <li><strong>Persistencia de Estado (`st.session_state`):</strong> Mantiene la conexión con Gemini y el historial sin reiniciar la memoria entre mensajes.</li>
+                <li><strong>Despliegue directo en la nube:</strong> Sincronización automática con GitHub para publicar sitios web con dominio HTTPS gratuito.</li>
+            </ul>
+        </div>
+
+        <!-- STEP 2 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">2</div>
+                <h2 class="step-title">Instalación de Dependencias Locales en VS Code</h2>
+            </div>
+            <p>Abre la terminal integrada de VS Code (<code>Ctrl + ~</code>) y ejecuta el siguiente comando para instalar Streamlit y el SDK unificado de Google GenAI:</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Terminal de VS Code (PowerShell / CMD)</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                </div>
+                <pre><code>python -m pip install --default-timeout=1000 streamlit google-genai</code></pre>
+            </div>
+
+            <div class="callout callout-info">
+                💡 <strong>Consejo de red:</strong> La bandera <code>--default-timeout=1000</code> previene fallos de descarga si la conexión en la escuela o en casa experimenta latencia.
+            </div>
+        </div>
+
+        <!-- STEP 3 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">3</div>
+                <h2 class="step-title">Gestión de Carpetas y Rutas de Archivos en VS Code</h2>
+            </div>
+            <p>Un error común al ejecutar Streamlit es recibir el mensaje: <code>Error: Invalid value: File does not exist: app.py</code>. Esto ocurre cuando la terminal está ubicada en una carpeta diferente a la carpeta donde guardaste tu script.</p>
+
+            <p><strong>Para asegurar una ejecución correcta, tienes dos opciones:</strong></p>
+
+            <ul>
+                <li><strong>Opción A (Recomendada - Cambiar de carpeta en la terminal):</strong>
+                    <br>Utiliza el comando <code>cd</code> para navegar hasta la carpeta exacta donde guardaste tu archivo <code>app.py</code>:
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>Comando de Navegación</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                        </div>
+                        <pre><code>cd "C:\Ruta\A\Tu\Carpeta\De\Practicas"</code></pre>
+                    </div>
+                </li>
+                <li><strong>Opción B (Ruta completa en el comando):</strong>
+                    <br>Indica la ruta absoluta encerrada entre comillas al ejecutar el servidor de Streamlit:
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>Comando con Ruta Absoluta</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                        </div>
+                        <pre><code>python -m streamlit run "C:\Ruta\A\Tu\Carpeta\app.py"</code></pre>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <!-- STEP 4 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">4</div>
+                <h2 class="step-title">Creación del Código Fuente Principal (`app.py`)</h2>
+            </div>
+            <p>Crea un archivo llamado <code>app.py</code> en tu carpeta de trabajo y pega el código optimizado. Este script incluye protección con <code>try-except</code> para tus claves y memoria persistente para el cliente de Gemini:</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>app.py (Código Completo y Actualizado)</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                </div>
+                <pre><code>import streamlit as st
+from google import genai
+from google.genai import types
+
+# ==============================================================================
+# 1. CONFIGURACIÓN DE LA PÁGINA WEB
+# ==============================================================================
+st.set_page_config(
+    page_title="Asistente AI - Sistemas Inteligentes",
+    page_icon="🤖",
+    layout="centered"
+)
+
+st.title("🤖 Asistente Virtual 'Astra'")
+st.caption("UAdeO • Materia: Sistemas Inteligentes • Dra. Aiblis Susej Herrera Palafox")
+
+# ==============================================================================
+# 2. GESTIÓN SEGURA DE LA API KEY (LOCAL Y STREAMLIT CLOUD)
+# ==============================================================================
+try:
+    # Intenta leer la clave desde los secretos de Streamlit Cloud
+    api_key = st.secrets["GEMINI_API_KEY"]
+except Exception:
+    # ⚠️ REEMPLAZA ESTA CADENA POR TU CLAVE REAL DE GOOGLE AI STUDIO PARA PRUEBAS LOCALES
+    api_key = "GEMINI_API_KEY"
+
+# ==============================================================================
+# 3. CONFIGURACIÓN DE PERSONALIDAD DEL BOT
+# ==============================================================================
+CONFIG_INSTRUCCIONES = types.GenerateContentConfig(
+    system_instruction=(
+        "Eres 'Astra', un asistente académico inteligente, formal y estructurado para la materia "
+        "Sistemas Inteligentes de la UAdeO. Tu objetivo es explicar conceptos de Inteligencia Artificial, "
+        "Agentes y Redes Neuronales de forma clara y accesible. Si te preguntan por entregas o fechas, "
+        "indica amablemente que deben verificar las indicaciones de la Dra. Aiblis Susej Herrera Palafox."
+    ),
+    temperature=0.7
+)
+
+# ==============================================================================
+# 4. INICIALIZACIÓN PERSISTENTE EN MEMORIA (PREVIENE ERRORES DE CONEXIÓN)
+# ==============================================================================
+# Se guarda tanto el cliente como el chat en st.session_state para mantenerlos vivos
+if "client" not in st.session_state or st.session_state.get("current_api_key") != api_key:
+    st.session_state.client = genai.Client(api_key=api_key)
+    st.session_state.current_api_key = api_key
+    st.session_state.chat_session = st.session_state.client.chats.create(
+        model="gemini-3.8-flash",
+        config=CONFIG_INSTRUCCIONES
+    )
+
+# Historial gráfico de mensajes
+if "messages" not in st.session_state:
+    st.session_state.messages = [
+        {"role": "assistant", "content": "👋 ¡Hola! Soy Astra. ¿En qué tema de Sistemas Inteligentes te puedo ayudar hoy?"}
+    ]
+
+# ==============================================================================
+# 5. BARRA LATERAL (OPCIONES DE REINICIO)
+# ==============================================================================
+with st.sidebar:
+    st.header("⚙️ Opciones del Agente")
+    st.markdown("Modelo backend: **Gemini 3.8 Flash**")
+    if st.button("🧹 Limpiar Conversación"):
+        st.session_state.chat_session = st.session_state.client.chats.create(
+            model="gemini-3.8-flash",
+            config=CONFIG_INSTRUCCIONES
+        )
+        st.session_state.messages = [
+            {"role": "assistant", "content": "🧹 La sesión ha sido reiniciada. ¿Qué otra duda tienes?"}
+        ]
+        st.rerun()
+
+# ==============================================================================
+# 6. RENDERIZADO DEL HISTORIAL DE MENSAJES
+# ==============================================================================
+for message in st.session_state.messages:
+    with st.chat_message(message["role"]):
+        st.markdown(message["content"])
+
+# ==============================================================================
+# 7. ENTRADA DE TEXTO Y PROCESAMIENTO
+# ==============================================================================
+if user_input := st.chat_input("Escribe tu pregunta o duda aquí..."):
+    # Renderizar el mensaje del usuario de inmediato
+    st.session_state.messages.append({"role": "user", "content": user_input})
+    with st.chat_message("user"):
+        st.markdown(user_input)
+
+    # Generar la respuesta llamando a la API de Gemini
+    with st.chat_message("assistant"):
+        with st.spinner("Pensando respuesta..."):
+            try:
+                response = st.session_state.chat_session.send_message(user_input)
+                st.markdown(response.text)
+                st.session_state.messages.append({"role": "assistant", "content": response.text})
+            except Exception as e:
+                st.error(f"❌ Error al consultar la API: {e}")</code></pre>
+            </div>
+        </div>
+
+        <!-- STEP 5 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">5</div>
+                <h2 class="step-title">Ejecución de la Aplicación en Servidor Local</h2>
+            </div>
+            <p><strong>REGLA IMPORTANTE:</strong> Las aplicaciones de Streamlit <strong>NO</strong> se ejecutan presionando el botón de Play (▶) de VS Code ni usando el comando `python app.py`. Deben ejecutarse a través de su propio módulo.</p>
+
+            <p>Abre tu terminal en VS Code y escribe:</p>
+
+            <div class="code-container">
+                <div class="code-header">
+                    <span>Comando Correcto de Ejecución</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                </div>
+                <pre><code>python -m streamlit run app.py</code></pre>
+            </div>
+
+            <div class="callout callout-warning">
+                ⚠️ <strong>Si ves el error `'streamlit' no se reconoce...`:</strong>
+                <br>Significa que la ruta de Streamlit no está en tus variables globales de Windows. Ejecuta el servidor usando la ruta completa de tu Python:
+                <br><code>& C:\Users\TU_USUARIO\AppData\Local\Python\pythoncore-3.14-64\python.exe -m streamlit run app.py</code>
+            </div>
+
+            <p>Se abrirá automáticamente la ventana de tu navegador en <code>http://localhost:8501</code>. Envía varios mensajes seguidos para confirmar que responde de forma continua.</p>
+        </div>
+
+        <!-- STEP 6 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">6</div>
+                <h2 class="step-title">Archivos de Configuración para GitHub (`requirements.txt` y `.gitignore`)</h2>
+            </div>
+            <p>Para preparar tu proyecto para la nube, crea los siguientes dos archivos en la misma carpeta que `app.py`:</p>
+
+            <p><strong>1. `requirements.txt`</strong> (Define las librerías a instalar en el servidor de la nube):</p>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>requirements.txt</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                </div>
+                <pre><code>streamlit
+google-genai</code></pre>
+            </div>
+
+            <p><strong>2. `.gitignore`</strong> (Evita subir claves privadas o temporales a internet):</p>
+            <div class="code-container">
+                <div class="code-header">
+                    <span>.gitignore</span>
+                    <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                </div>
+                <pre><code>.streamlit/secrets.toml
+__pycache__/
+*.pyc</code></pre>
+            </div>
+        </div>
+
+        <!-- STEP 7 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">7</div>
+                <h2 class="step-title">Publicación en GitHub y Despliegue en Streamlit Cloud</h2>
+            </div>
+            <ol>
+                <li>Ingresa a <a href="https://github.com" target="_blank" style="color: var(--google-blue);"><strong>github.com</strong></a> y crea un repositorio público llamado <code>asistente-gemini-streamlit</code>.</li>
+                <li>Sube tus 3 archivos (<code>app.py</code>, <code>requirements.txt</code> y <code>.gitignore</code>) desde el panel de Control de Código Fuente de VS Code (<code>Ctrl + Shift + G</code>) usando <strong>Publish to GitHub</strong>.</li>
+                <li>Abre <a href="https://share.streamlit.io" target="_blank" style="color: var(--google-blue);"><strong>share.streamlit.io</strong></a> e inicia sesión con tu cuenta de GitHub.</li>
+                <li>Haz clic en <strong>Create app</strong>, selecciona tu repositorio y la rama <code>main</code>.</li>
+                <li>En la sección desplegable <strong>Advanced settings...</strong>, localiza la casilla de <strong>Secrets</strong> y agrega tu API Key así:
+                    <div class="code-container">
+                        <div class="code-header">
+                            <span>Secrets de Streamlit Cloud</span>
+                            <button class="copy-btn" onclick="copyCode(this)">Copiar Código</button>
+                        </div>
+                        <pre><code>GEMINI_API_KEY = "TU_GEMINI_API_KEY_REAL_AQUI"</code></pre>
+                    </div>
+                </li>
+                <li>Haz clic en <strong>Deploy!</strong>.</li>
+            </ol>
+        </div>
+
+        <!-- STEP 8 -->
+        <div class="step-card">
+            <div class="step-header">
+                <div class="step-number">8</div>
+                <h2 class="step-title">Entregable de Portafolio Profesional</h2>
+            </div>
+            <p>¡Listo! Obtendrás una URL pública permanente con el formato:</p>
+            <p style="text-align: center; font-size: 1.1rem;">
+                <code>https://tu-usuario-asistente-gemini.streamlit.app</code>
+            </p>
+            <p>Copia el enlace de tu aplicación desplegada y compártelo como entregable final de tu práctica de <strong>Sistemas Inteligentes</strong>.</p>
+        </div>
+
+        <footer>
+            Materia: Sistemas Inteligentes • Docente: Dra. Aiblis Susej Herrera Palafox • Streamlit + Gemini API + GitHub
+        </footer>
+
+    </div>
+
+    <script>
+        function copyCode(button) {
+            const container = button.closest('.code-container');
+            const code = container.querySelector('code').innerText;
+            
+            navigator.clipboard.writeText(code).then(() => {
+                const originalText = button.innerHTML;
+                button.innerHTML = '✓ Copiado';
+                button.style.backgroundColor = 'var(--google-green-dark)';
+                button.style.color = 'var(--google-green)';
+                button.style.borderColor = 'var(--google-green)';
+
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                    button.style.backgroundColor = '';
+                    button.style.color = '';
+                    button.style.borderColor = '';
+                }, 2000);
+            }).catch(err => {
+                console.error('Error al copiar el código:', err);
+            });
+        }
+
+        function toggleFullScreen() {
+            const btnText = document.getElementById('fullscreenText');
+            const btnIcon = document.getElementById('fullscreenIcon');
+
+            if (!document.fullscreenElement) {
+                document.documentElement.requestFullscreen().then(() => {
+                    btnText.innerText = 'Salir de Pantalla Completa';
+                    btnIcon.innerText = '🗗';
+                }).catch(err => {
+                    console.error(`Error al activar pantalla completa: ${err.message}`);
+                });
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen().then(() => {
+                        btnText.innerText = 'Pantalla Completa';
+                        btnIcon.innerText = '⛶';
+                    });
+                }
+            }
+        }
+
+        document.addEventListener('fullscreenchange', () => {
+            const btnText = document.getElementById('fullscreenText');
+            const btnIcon = document.getElementById('fullscreenIcon');
+            if (!document.fullscreenElement) {
+                btnText.innerText = 'Pantalla Completa';
+                btnIcon.innerText = '⛶';
+            }
+        });
+    </script>
+</body>
+</html>

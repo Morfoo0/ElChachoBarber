@@ -157,6 +157,9 @@
         data-product-transition="{{ settings.transition_to_main_product }}"
         data-template="{{ template }}"
       >
+        {%- if template.name == 'index' -%}
+          {%- render 'home-styles' -%}
+        {%- endif -%}
         {{ content_for_layout }}
       </main>
 
