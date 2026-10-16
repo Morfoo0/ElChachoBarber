@@ -134,9 +134,16 @@
     endif
 endif
 
-  # On the home page, add a centered inline search bar. The regular search action is
-  # kept for mobile and hidden on desktop (see stylesheet) so the bar replaces it.
+  # Show a centered inline search bar on the home and collection pages.
+  # The regular search action is kept for mobile and hidden on desktop (see stylesheet).
+  assign show_centered_search = false
   if template.name == 'index'
+    assign show_centered_search = true
+  elsif template.name == 'collection'
+    assign show_centered_search = true
+  endif
+
+  if show_centered_search
     assign order = order | append: ',home_search'
     capture home_search
       render 'header-search-bar'
@@ -362,7 +369,7 @@ endcapture
   {% endif %}
   data-skip-node-update
   data-scroll-direction="none"
-  {% if template.name == 'index' %}
+  {% if show_centered_search %}
     data-home-search-bar
   {% endif %}
   {% if section.settings.menu_row == 'top' and bottom_row_blocks.size > 0 %}
