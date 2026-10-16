@@ -5,6 +5,7 @@
   Intended for collection-card.liquid block.
 
   @param {string} parent_block_id - The block.id of the collection-card block
+  @param {object} [image_source] - Optional fallback image for the collection card
 
   @example
   {% content_for 'block', type: '_collection-card-image', id: 'collection-card-image', parent_block_id: block.id %}
@@ -15,6 +16,7 @@
 {% render 'resource-image',
   content_type: 'collections',
   parent_block_id: parent_block_id,
+  image_source: image_source,
   block_settings: block.settings,
   section_settings: section.settings,
   block_attributes: block.shopify_attributes
