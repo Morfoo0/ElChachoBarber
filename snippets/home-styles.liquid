@@ -11,9 +11,9 @@
        una imagen móvil definida por slide (campo "Imagen (móvil)").
        Cuando se suban las imágenes móviles, se puede quitar esta regla de móvil. */
   @media screen and (max-width: 749px) {
-    #MainContent[data-template='index'] slideshow-slide .slide__image,
-    #MainContent[data-template='index'] slideshow-slide .slide__video,
-    #MainContent[data-template='index'] slideshow-slide .slide__video-poster {
+    #MainContent[data-template='index'] slideshow-slide:not(:has(picture.slide__image-container__picture)) .slide__image,
+    #MainContent[data-template='index'] slideshow-slide:not(:has(picture.slide__image-container__picture)) .slide__video,
+    #MainContent[data-template='index'] slideshow-slide:not(:has(picture.slide__image-container__picture)) .slide__video-poster {
       object-fit: contain;
     }
   }
