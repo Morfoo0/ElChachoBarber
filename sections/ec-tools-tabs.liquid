@@ -1,0 +1,594 @@
+{% comment %}
+  Sección "Herramientas que se ganan su lugar" del rediseño El Chacho.
+  Tabs por categoría (definidas como ajustes de sección). Cada tab muestra una
+  fila horizontal de productos; opcionalmente puede agruparlos por tipo (Red One).
+  Solo se muestran productos disponibles y con precio, con la tarjeta nativa del tema.
+{% endcomment %}
+
+<script src="{{ 'ec-tabs.js' | asset_url }}" type="module" defer></script>
+
+<div class="section-background"></div>
+<div
+  class="ec-tools-tabs section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  {% if section.settings.title != blank %}
+    <h2 class="ec-tools-tabs__title">{{ section.settings.title | escape }}</h2>
+  {% endif %}
+
+  {%- liquid
+    assign empty_message = section.settings.empty_message | default: 'Próximamente'
+    assign tab_count = 0
+    assign active_tab_index = 0
+  -%}
+
+  {% capture tabs_bar %}{% endcapture %}
+  {% capture tabs_panels %}{% endcapture %}
+
+  {% for i in (1..5) %}
+    {%- liquid
+      assign label_key = 'tab_' | append: i | append: '_label'
+      assign coll_key = 'tab_' | append: i | append: '_collection'
+      assign filter_key = 'tab_' | append: i | append: '_filter'
+      assign max_key = 'tab_' | append: i | append: '_max'
+      assign groups_key = 'tab_' | append: i | append: '_groups'
+
+      assign label = section.settings[label_key] | strip
+      assign coll_handle = section.settings[coll_key] | strip
+      assign coll = collections[coll_handle]
+      assign filter_raw = section.settings[filter_key] | strip
+      if filter_raw != blank
+        assign keywords = filter_raw | downcase | split: ','
+        assign has_filter = true
+      else
+        assign has_filter = false
+      endif
+      assign max_products = section.settings[max_key] | default: 8 | times: 1
+      assign groups_raw = section.settings[groups_key] | strip
+      assign shown = 0
+      assign view_all_link = coll.url
+    -%}
+
+    {% if label != blank and coll != blank %}
+      {%- liquid
+        assign tab_count = tab_count | plus: 1
+        assign tab_id = 'ec-tab-' | append: section.id | append: '-' | append: tab_count
+        assign panel_id = 'ec-tab-panel-' | append: section.id | append: '-' | append: tab_count
+      -%}
+
+      {% capture items %}
+        {% if groups_raw != blank %}
+          {%- liquid
+            assign group_entries = groups_raw | split: ';'
+            assign used_ids = '|'
+          -%}
+          {% for entry in group_entries %}
+            {%- liquid
+              assign entry_strip = entry | strip
+            -%}
+            {% if entry_strip != blank %}
+              {%- liquid
+                assign parts = entry_strip | split: '|'
+                assign group_label = parts[0] | strip
+                assign group_filter = parts[1] | strip
+                if group_filter != blank
+                  assign group_keywords = group_filter | downcase | split: ','
+                  assign group_has_filter = true
+                else
+                  assign group_has_filter = false
+                endif
+                assign group_count = 0
+              -%}
+              {% capture group_items %}
+                {% for product in coll.products %}
+                  {%- liquid
+                    assign pid = '|' | append: product.id | append: '|'
+                    assign already_used = false
+                    if used_ids contains pid
+                      assign already_used = true
+                    endif
+                    assign pass = false
+                    if already_used == false and product.available and product.price > 0 and group_count < max_products
+                      if group_has_filter
+                        assign title_down = product.title | downcase
+                        for kw in group_keywords
+                          assign kw_strip = kw | strip
+                          if kw_strip != blank and title_down contains kw_strip
+                            assign pass = true
+                          endif
+                        endfor
+                      else
+                        assign pass = true
+                      endif
+                    endif
+                  -%}
+                  {% if pass %}
+                    {%- liquid
+                      assign group_count = group_count | plus: 1
+                      assign used_ids = used_ids | append: product.id | append: '|'
+                    -%}
+                    <div class="ec-tools-tabs__item">
+                      {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product, product_view_context: 'collection' %}
+                    </div>
+                  {% endif %}
+                {% endfor %}
+              {% endcapture %}
+
+              {% if group_count > 0 %}
+                {% assign shown = shown | plus: group_count %}
+                <div class="ec-tools-tabs__group">
+                  <h4 class="ec-tools-tabs__group-label">{{ group_label | escape }}</h4>
+                  <div class="ec-tools-tabs__row">{{ group_items }}</div>
+                </div>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        {% else %}
+          {% capture row_items %}
+            {% for product in coll.products %}
+              {%- liquid
+                assign pass = false
+                if product.available and product.price > 0 and shown < max_products
+                  if has_filter
+                    assign title_down = product.title | downcase
+                    for kw in keywords
+                      assign kw_strip = kw | strip
+                      if kw_strip != blank and title_down contains kw_strip
+                        assign pass = true
+                      endif
+                    endfor
+                  else
+                    assign pass = true
+                  endif
+                endif
+              -%}
+              {% if pass %}
+                {% assign shown = shown | plus: 1 %}
+                <div class="ec-tools-tabs__item">
+                  {% content_for 'block', type: '_product-card', id: 'static-product-card', closest.product: product, product_view_context: 'collection' %}
+                </div>
+              {% endif %}
+            {% endfor %}
+          {% endcapture %}
+          <div class="ec-tools-tabs__row">{{ row_items }}</div>
+        {% endif %}
+      {% endcapture %}
+
+      {%- liquid
+        if shown > 0 and active_tab_index == 0
+          assign active_tab_index = tab_count
+        endif
+        assign is_active = false
+        if tab_count == active_tab_index
+          assign is_active = true
+        endif
+      -%}
+
+      {% capture tabs_bar %}{{ tabs_bar }}
+        <button
+          type="button"
+          role="tab"
+          id="{{ tab_id }}"
+          aria-controls="{{ panel_id }}"
+          aria-selected="{% if is_active %}true{% else %}false{% endif %}"
+          tabindex="{% if is_active %}0{% else %}-1{% endif %}"
+        >{{ label | escape }}</button>
+      {% endcapture %}
+
+      {% capture tabs_panels %}{{ tabs_panels }}
+        <div
+          role="tabpanel"
+          id="{{ panel_id }}"
+          aria-labelledby="{{ tab_id }}"
+          aria-hidden="{% if is_active %}false{% else %}true{% endif %}"
+        >
+          {% if shown > 0 %}
+            {{ items }}
+            {% if view_all_link != blank %}
+              <a class="ec-tools-tabs__viewall" href="{{ view_all_link }}">Ver todo</a>
+            {% endif %}
+          {% else %}
+            <p class="ec-tools-tabs__empty">{{ empty_message | escape }}</p>
+          {% endif %}
+        </div>
+      {% endcapture %}
+    {% endif %}
+  {% endfor %}
+
+  <ec-tabs class="ec-tools-tabs__tabs">
+    <div class="ec-tools-tabs__bar" role="tablist">{{ tabs_bar }}</div>
+    <div class="ec-tools-tabs__panels">{{ tabs_panels }}</div>
+  </ec-tabs>
+</div>
+
+{% stylesheet %}
+  .ec-tools-tabs__title {
+    margin: 0 0 2rem;
+    font-family: var(--ec-display);
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  ec-tabs {
+    display: block;
+  }
+
+  .ec-tools-tabs__bar {
+    display: flex;
+    gap: 1.75rem;
+    overflow-x: auto;
+    border-bottom: 1px solid var(--ec-line, rgb(11 11 11 / 0.16));
+    scrollbar-width: none;
+  }
+
+  .ec-tools-tabs__bar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ec-tools-tabs__bar [role='tab'] {
+    appearance: none;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin: 0 0 -1px;
+    padding: 0.65rem 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ec-ink);
+    cursor: pointer;
+    white-space: nowrap;
+  }
+
+  .ec-tools-tabs__bar [role='tab']:hover {
+    color: var(--ec-red);
+  }
+
+  .ec-tools-tabs__bar [role='tab'][aria-selected='true'] {
+    color: var(--ec-red);
+    border-bottom-color: var(--ec-red);
+  }
+
+  .ec-tools-tabs__bar [role='tab']:focus-visible {
+    outline: 2px solid var(--ec-red);
+    outline-offset: 4px;
+  }
+
+  .ec-tools-tabs__panels [role='tabpanel'] > .ec-tools-tabs__row {
+    margin-top: 2rem;
+  }
+
+  .ec-tools-tabs__group {
+    margin-top: 2rem;
+  }
+
+  .ec-tools-tabs__group-label {
+    margin: 0 0 1rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ec-red);
+  }
+
+  .ec-tools-tabs__row {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    scroll-snap-type: x proximity;
+    padding-bottom: 12px;
+    scrollbar-width: thin;
+  }
+
+  .ec-tools-tabs__item {
+    flex: 0 0 auto;
+    width: clamp(180px, 22vw, 240px);
+    scroll-snap-align: start;
+  }
+
+  .ec-tools-tabs__item .product-card {
+    display: grid;
+    width: 100%;
+    height: 100%;
+  }
+
+  .ec-tools-tabs__viewall {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 2rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ec-ink);
+    border-bottom: 1px solid var(--ec-red);
+    padding-bottom: 0.25rem;
+  }
+
+  .ec-tools-tabs__viewall::after {
+    content: '\2192';
+  }
+
+  .ec-tools-tabs__viewall:hover {
+    color: var(--ec-red);
+  }
+
+  .ec-tools-tabs__empty {
+    margin: 2.5rem 0 0.5rem;
+    font-family: var(--font-subheading--family);
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(11 11 11 / 0.5);
+  }
+
+  /* No-JS fallback: all panels visible. With JS, hide inactive panels. */
+  ec-tabs:not([enhanced]) [role='tabpanel'] {
+    display: block;
+  }
+
+  ec-tabs[enhanced] [role='tabpanel'][aria-hidden='true'] {
+    display: none;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ec-tools-tabs__item {
+      width: min(78vw, 260px);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Herramientas con tabs",
+  "tag": "section",
+  "class": "ec-tools-tabs-section",
+  "blocks": [
+    {
+      "type": "@theme"
+    },
+    {
+      "type": "@app"
+    }
+  ],
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Herramientas que se ganan su lugar."
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Texto cuando no hay productos",
+      "default": "Próximamente"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Relleno superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Relleno inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "header",
+      "content": "Tab 1"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_label",
+      "label": "Etiqueta",
+      "default": "Máquinas"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_collection",
+      "label": "Colección (handle)",
+      "info": "Escribe el handle de la colección, por ejemplo: herramientas"
+    },
+    {
+      "type": "text",
+      "id": "tab_1_filter",
+      "label": "Filtro por título (opcional)"
+    },
+    {
+      "type": "range",
+      "id": "tab_1_max",
+      "label": "Máximo de productos",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "textarea",
+      "id": "tab_1_groups",
+      "label": "Grupos (opcional)",
+      "info": "Formato: Etiqueta|palabra1,palabra2;Etiqueta2|palabra3. Dejar vacío para una sola fila."
+    },
+    {
+      "type": "header",
+      "content": "Tab 2"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_label",
+      "label": "Etiqueta",
+      "default": "Navajas"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_collection",
+      "label": "Colección (handle)",
+      "info": "Escribe el handle de la colección, por ejemplo: navajas"
+    },
+    {
+      "type": "text",
+      "id": "tab_2_filter",
+      "label": "Filtro por título (opcional)"
+    },
+    {
+      "type": "range",
+      "id": "tab_2_max",
+      "label": "Máximo de productos",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "textarea",
+      "id": "tab_2_groups",
+      "label": "Grupos (opcional)",
+      "info": "Formato: Etiqueta|palabra1,palabra2;Etiqueta2|palabra3. Dejar vacío para una sola fila."
+    },
+    {
+      "type": "header",
+      "content": "Tab 3"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_label",
+      "label": "Etiqueta",
+      "default": "Enfriadores"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_collection",
+      "label": "Colección (handle)",
+      "info": "Escribe el handle de la colección, por ejemplo: enfriadores-y-lubricantes"
+    },
+    {
+      "type": "text",
+      "id": "tab_3_filter",
+      "label": "Filtro por título (opcional)"
+    },
+    {
+      "type": "range",
+      "id": "tab_3_max",
+      "label": "Máximo de productos",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "textarea",
+      "id": "tab_3_groups",
+      "label": "Grupos (opcional)",
+      "info": "Formato: Etiqueta|palabra1,palabra2;Etiqueta2|palabra3. Dejar vacío para una sola fila."
+    },
+    {
+      "type": "header",
+      "content": "Tab 4"
+    },
+    {
+      "type": "text",
+      "id": "tab_4_label",
+      "label": "Etiqueta",
+      "default": "Desechables"
+    },
+    {
+      "type": "text",
+      "id": "tab_4_collection",
+      "label": "Colección (handle)",
+      "info": "Escribe el handle de la colección, por ejemplo: insumos"
+    },
+    {
+      "type": "text",
+      "id": "tab_4_filter",
+      "label": "Filtro por título (opcional)"
+    },
+    {
+      "type": "range",
+      "id": "tab_4_max",
+      "label": "Máximo de productos",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 8
+    },
+    {
+      "type": "textarea",
+      "id": "tab_4_groups",
+      "label": "Grupos (opcional)",
+      "info": "Formato: Etiqueta|palabra1,palabra2;Etiqueta2|palabra3. Dejar vacío para una sola fila."
+    },
+    {
+      "type": "header",
+      "content": "Tab 5"
+    },
+    {
+      "type": "text",
+      "id": "tab_5_label",
+      "label": "Etiqueta",
+      "default": "Red One"
+    },
+    {
+      "type": "text",
+      "id": "tab_5_collection",
+      "label": "Colección (handle)",
+      "info": "Escribe el handle de la colección, por ejemplo: redone"
+    },
+    {
+      "type": "text",
+      "id": "tab_5_filter",
+      "label": "Filtro por título (opcional)"
+    },
+    {
+      "type": "range",
+      "id": "tab_5_max",
+      "label": "Máximo de productos",
+      "min": 1,
+      "max": 16,
+      "step": 1,
+      "default": 12
+    },
+    {
+      "type": "textarea",
+      "id": "tab_5_groups",
+      "label": "Grupos (opcional)",
+      "info": "Formato: Etiqueta|palabra1,palabra2;Etiqueta2|palabra3. Dejar vacío para una sola fila."
+    }
+  ],
+  "presets": [
+    {
+      "name": "Herramientas con tabs",
+      "category": "El Chacho"
+    }
+  ]
+}
+{% endschema %}

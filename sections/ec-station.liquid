@@ -1,0 +1,273 @@
+{% comment %}
+  Sección "Mi Estación" del rediseño El Chacho — Supply Culture.
+  Cuatro rutas de compra en composición editorial asimétrica sobre fondo negro.
+{% endcomment %}
+
+<div class="section-background ec-station__bg"></div>
+<div
+  class="ec-station section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %} --ec-station-gap: {{ section.settings.gap }}px;"
+  {{ section.shopify_attributes }}
+>
+  {% if section.settings.title != blank %}
+    <h2 class="ec-station__title">{{ section.settings.title | escape }}</h2>
+  {% endif %}
+
+  <div class="ec-station__grid">
+    {% for block in section.blocks %}
+      {%- liquid
+        assign url = block.settings.link
+        assign label = block.settings.link_label | default: 'Explorar'
+      -%}
+      <div class="ec-route" {{ block.shopify_attributes }}>
+        <span class="ec-route__num">{{ forloop.index | prepend: '0' }}</span>
+        <h3 class="ec-route__title">{{ block.settings.title | escape }}</h3>
+        {% if block.settings.description != blank %}
+          <p class="ec-route__desc">{{ block.settings.description | escape }}</p>
+        {% endif %}
+        {% if url != blank %}
+          <a class="ec-route__link" href="{{ url }}">
+            {{- label | escape -}}
+            <span class="ec-route__arrow" aria-hidden="true">&rarr;</span>
+          </a>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% stylesheet %}
+  .ec-station__bg {
+    background-color: var(--ec-ink);
+  }
+
+  .ec-station {
+    color: var(--ec-cream);
+  }
+
+  .ec-station__title {
+    margin: 0 0 3rem;
+    font-family: var(--ec-display);
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    line-height: 0.98;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .ec-station__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--ec-station-gap);
+  }
+
+  .ec-route {
+    border-top: 2px solid var(--ec-red);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .ec-route__num {
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ec-red);
+  }
+
+  .ec-route__title {
+    margin: 0;
+    font-family: var(--ec-display);
+    font-size: clamp(1.75rem, 3.4vw, 2.75rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .ec-route__desc {
+    margin: 0;
+    max-width: 36ch;
+    color: rgb(244 239 229 / 0.72);
+    line-height: 1.6;
+  }
+
+  .ec-route__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    align-self: flex-start;
+    margin-top: 0.4rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ec-cream);
+    border-bottom: 1px solid var(--ec-red);
+    padding-bottom: 0.25rem;
+    transition: color 0.3s var(--animation-easing);
+  }
+
+  .ec-route__arrow {
+    transition: transform 0.3s var(--animation-easing);
+  }
+
+  .ec-route__link:hover {
+    color: var(--ec-red);
+  }
+
+  .ec-route__link:hover .ec-route__arrow {
+    transform: translateX(6px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ec-station__grid {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--ec-station-gap);
+      row-gap: 3rem;
+    }
+
+    .ec-route:nth-child(even) {
+      margin-top: 5rem;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ec-route:nth-child(odd) {
+      width: 90%;
+    }
+
+    .ec-route:nth-child(even) {
+      justify-self: end;
+      width: 90%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Mi Estación",
+  "tag": "section",
+  "class": "ec-station-section",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Mi Estación"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "gap",
+      "label": "Separación",
+      "min": 12,
+      "max": 80,
+      "step": 4,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Relleno"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "route",
+      "name": "Ruta",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Texto del enlace",
+          "default": "Explorar"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Mi Estación",
+      "category": "El Chacho",
+      "blocks": {
+        "block_1": {
+          "type": "route",
+          "settings": {
+            "title": "Reabastecer",
+            "description": "Para volver a comprar consumibles y productos de uso frecuente."
+          }
+        },
+        "block_2": {
+          "type": "route",
+          "settings": {
+            "title": "Mejorar el equipo",
+            "description": "Para explorar máquinas, herramientas y equipamiento profesional."
+          }
+        },
+        "block_3": {
+          "type": "route",
+          "settings": {
+            "title": "Equipar una estación",
+            "description": "Para encontrar productos que ayuden a completar o preparar una estación barberil."
+          }
+        },
+        "block_4": {
+          "type": "route",
+          "settings": {
+            "title": "Comprar por volumen",
+            "description": "Para explorar opciones profesionales o compras de mayor cantidad."
+          }
+        }
+      },
+      "block_order": ["block_1", "block_2", "block_3", "block_4"]
+    }
+  ]
+}
+{% endschema %}

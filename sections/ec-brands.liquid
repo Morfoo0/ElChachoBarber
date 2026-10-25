@@ -1,0 +1,190 @@
+{% comment %}
+  Sección "Marcas" del rediseño El Chacho — Supply Culture.
+  Franja de logos configurable. No se inventan marcas ni logos: solo se
+  muestran los bloques que tengan logo o nombre cargado.
+{% endcomment %}
+
+{%- liquid
+  assign has_brand = false
+  for block in section.blocks
+    if block.settings.name != blank or block.settings.image != blank
+      assign has_brand = true
+    endif
+  endfor
+-%}
+
+{% if has_brand or request.design_mode %}
+  <div
+    class="ec-brands section section--{{ section.settings.section_width }} spacing-style"
+    style="{% render 'spacing-padding', settings: section.settings %}"
+    {{ section.shopify_attributes }}
+  >
+    {% if section.settings.eyebrow != blank %}
+      <p class="ec-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {% endif %}
+
+    <div class="ec-brands__grid">
+      {% for block in section.blocks %}
+        {% if block.settings.name != blank or block.settings.image != blank %}
+          {%- liquid
+            assign url = block.settings.link
+            assign name = block.settings.name
+            assign image = block.settings.image
+          -%}
+          {% if url != blank %}
+            <a class="ec-brand" href="{{ url }}" aria-label="{{ name | escape }}">
+          {% else %}
+            <div class="ec-brand">
+          {% endif %}
+            {% if image != blank %}
+              {{
+                image
+                | image_url: width: 480
+                | image_tag:
+                  loading: 'lazy',
+                  widths: '160, 240, 320, 480',
+                  sizes: '160px',
+                  class: 'ec-brand__img',
+                  alt: name | default: image.alt
+              }}
+            {% else %}
+              <span class="ec-brand__name">{{ name | escape }}</span>
+            {% endif %}
+          {% if url != blank %}
+            </a>
+          {% else %}
+            </div>
+          {% endif %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .ec-brands__grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 2rem 3.5rem;
+  }
+
+  .ec-brand {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    max-width: 170px;
+    text-decoration: none;
+    color: var(--color-foreground);
+  }
+
+  .ec-brand__img {
+    max-height: 40px;
+    width: auto;
+    object-fit: contain;
+  }
+
+  .ec-brand__name {
+    font-family: var(--ec-display);
+    font-size: 1.5rem;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    opacity: 0.9;
+  }
+
+  @media screen and (max-width: 749px) {
+    .ec-brands__grid {
+      gap: 1.75rem 2.25rem;
+    }
+
+    .ec-brand {
+      max-width: 44%;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Marcas",
+  "tag": "section",
+  "class": "ec-brands-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Marcas"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "header",
+      "content": "Relleno"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Superior",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Inferior",
+      "min": 0,
+      "max": 140,
+      "step": 4,
+      "unit": "px",
+      "default": 56
+    }
+  ],
+  "blocks": [
+    {
+      "type": "brand",
+      "name": "Marca",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "image",
+          "label": "Logo"
+        },
+        {
+          "type": "text",
+          "id": "name",
+          "label": "Nombre (se usa si no hay logo)"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace (opcional)"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Marcas",
+      "category": "El Chacho",
+      "blocks": {
+        "block_1": { "type": "brand" },
+        "block_2": { "type": "brand" },
+        "block_3": { "type": "brand" },
+        "block_4": { "type": "brand" }
+      },
+      "block_order": ["block_1", "block_2", "block_3", "block_4"]
+    }
+  ]
+}
+{% endschema %}

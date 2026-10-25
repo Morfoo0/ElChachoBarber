@@ -1,0 +1,239 @@
+/* ==========================================================================
+   EL CHACHO BARBER SUPPLY — "SUPPLY CULTURE"
+   Global brand layer. Loaded after base.css so it can override defaults.
+   Palette / typography come from theme settings (config/settings_data.json):
+   negro #0B0B0B · hueso #D6C9AD (fondo) · crema #F4EFE5 (texto claro) · rojo #990003 · titulares Anton.
+   ========================================================================== */
+
+:root {
+  --ec-ink: #0b0b0b;
+  --ec-cream: #f4efe5;
+  --ec-red: #990003;
+  --ec-red-hover: #7a0002;
+  --ec-line: rgba(11, 11, 11, 0.16);
+  --ec-line-light: rgba(244, 239, 229, 0.2);
+  --ec-display: var(--font-heading--family);
+}
+
+/* ---- Base typography -------------------------------------------------- */
+
+body {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--ec-display);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+}
+
+/* Compact editorial label used across sections */
+.ec-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-family: var(--font-subheading--family);
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ec-red);
+}
+
+.ec-eyebrow::before {
+  content: '';
+  width: 1.75rem;
+  height: 2px;
+  background: currentColor;
+  flex: 0 0 auto;
+}
+
+/* ---- Buttons ---------------------------------------------------------- */
+
+.button,
+.button-secondary,
+.button-custom,
+button.shopify-payment-button__button--unbranded {
+  border-radius: 0 !important;
+  font-family: var(--font-subheading--family);
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.button:hover,
+.button-secondary:hover,
+.button-custom:hover {
+  text-decoration: none;
+}
+
+/* ---- Header ----------------------------------------------------------- */
+
+.header__row--top {
+  border-bottom: 1px solid var(--ec-line-light);
+}
+
+.header__row--top .menu-list__link-title {
+  text-transform: uppercase;
+}
+
+.announcement-bar__slide,
+.announcement-bar__text {
+  font-family: var(--font-subheading--family);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* Square, editorial search field (home/collection header) */
+.header-search-bar__field {
+  border-radius: 0 !important;
+  background: transparent !important;
+  border: 1px solid rgba(244, 239, 229, 0.45) !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  color: var(--ec-cream);
+}
+
+.header-search-bar__field:focus-within {
+  border-color: var(--ec-red) !important;
+  box-shadow: 0 0 0 1px var(--ec-red) !important;
+  background: transparent !important;
+}
+
+/* ---- Footer ----------------------------------------------------------- */
+
+footer .footer-content {
+  gap: var(--footer-gap, 24px);
+}
+
+footer .footer-content .menu__heading__default,
+footer .footer-content .menu__heading {
+  font-family: var(--font-subheading--family);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ec-cream);
+  opacity: 0.75;
+}
+
+footer .menu__item a {
+  color: var(--ec-cream);
+  text-decoration: none;
+  transition: color var(--animation-speed) var(--animation-easing);
+}
+
+footer .menu__item a:hover {
+  color: var(--ec-red);
+}
+
+footer .utilities {
+  border-top-color: var(--ec-line-light);
+  color: var(--ec-cream);
+}
+
+footer .utilities a,
+footer .utilities button {
+  color: var(--ec-cream);
+}
+
+footer .footer-utilities__text {
+  color: var(--ec-cream);
+}
+
+footer .logo-block {
+  margin-bottom: 1rem;
+}
+
+footer .footer-content .text-block {
+  color: var(--ec-cream);
+}
+
+footer .footer-content .text-block h5,
+footer .footer-content .text-block h6 {
+  font-family: var(--font-subheading--family);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--ec-cream);
+  opacity: 0.75;
+}
+
+/* ---- Product cards ---------------------------------------------------- */
+
+.product-card {
+  color: var(--color-foreground);
+}
+
+.product-card .product-card__content {
+  cursor: pointer;
+}
+
+.product-card .card-gallery,
+.product-card .product-media-container,
+.product-card .product-media__image,
+.product-card .resource-image__image {
+  border-radius: 0;
+}
+
+.product-card .price-item--regular.compare-at-price {
+  color: rgb(var(--color-foreground-rgb) / var(--opacity-50));
+  text-decoration: line-through;
+}
+
+.product-card .price-item__group.price:has(+ .compare-at-price) {
+  color: var(--ec-red);
+}
+
+/* ---- Collection / resource cards ------------------------------------- */
+
+.collection-card .resource-image__image {
+  border-radius: 0;
+}
+
+/* ---- Product list (featured) heading --------------------------------- */
+
+.section-resource-list__header {
+  margin-bottom: 2.5rem;
+}
+
+.section-resource-list__header .text-block h2,
+.section-resource-list__header .text-block h3 {
+  font-family: var(--ec-display);
+  font-weight: 400;
+  font-size: clamp(2rem, 4.5vw, 3.25rem);
+  line-height: 1;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.section-resource-list__header a.button-unstyled {
+  font-family: var(--font-subheading--family);
+  font-size: 0.78rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: var(--ec-ink);
+  border-bottom: 1px solid var(--ec-red);
+  padding-bottom: 0.25rem;
+}
+
+.section-resource-list__header a.button-unstyled:hover {
+  color: var(--ec-red);
+}
+
+/* ---- Motion ----------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

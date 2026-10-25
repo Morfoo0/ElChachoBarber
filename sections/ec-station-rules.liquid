@@ -1,0 +1,414 @@
+{% comment %}
+  Sección "Tu estación, tus reglas" del rediseño El Chacho — Supply Culture.
+  Convierte Mi Estación en el espacio personal del barbero: cuenta, organización
+  por tipo y repetición de pedido, usando la cuenta nativa de Shopify (sin
+  prometer funciones de favoritos que no existen).
+{% endcomment %}
+
+<div class="section-background ec-sr__bg"></div>
+<div
+  class="ec-sr section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="ec-sr__header">
+    {% if section.settings.eyebrow != blank %}
+      <p class="ec-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+    {% endif %}
+    {% if section.settings.title != blank %}
+      <h2 class="ec-sr__title">{{ section.settings.title | escape }}</h2>
+    {% endif %}
+    {% if section.settings.intro != blank %}
+      <p class="ec-sr__intro">{{ section.settings.intro | escape }}</p>
+    {% endif %}
+    {% if section.settings.primary_link != blank %}
+      <a class="ec-sr__cta" href="{{ section.settings.primary_link }}">
+        {{- section.settings.primary_label | escape -}}
+      </a>
+    {% endif %}
+  </div>
+
+  <div class="ec-sr__pillars">
+    {% for block in section.blocks %}
+      {% if block.type == 'pillar' %}
+        <div class="ec-sr__pillar" {{ block.shopify_attributes }}>
+          <span class="ec-sr__num">{{ forloop.index | prepend: '0' }}</span>
+          <h3 class="ec-sr__pillar-title">{{ block.settings.title | escape }}</h3>
+          {% if block.settings.description != blank %}
+            <p class="ec-sr__pillar-desc">{{ block.settings.description | escape }}</p>
+          {% endif %}
+          {% if block.settings.link != blank %}
+            <a class="ec-sr__link" href="{{ block.settings.link }}">
+              {{- block.settings.link_label | escape -}}
+              <span class="ec-sr__arrow" aria-hidden="true">&rarr;</span>
+            </a>
+          {% endif %}
+        </div>
+      {% endif %}
+    {% endfor %}
+  </div>
+
+  {%- assign has_routes = false -%}
+  {%- for block in section.blocks -%}
+    {%- if block.type == 'route' -%}
+      {%- assign has_routes = true -%}
+    {%- endif -%}
+  {%- endfor -%}
+
+  {% if has_routes %}
+    <div class="ec-sr__routes">
+      <span class="ec-sr__routes-label">Rutas rápidas</span>
+      <ul class="ec-sr__routes-list">
+        {% for block in section.blocks %}
+          {% if block.type == 'route' %}
+            <li class="ec-sr__route" {{ block.shopify_attributes }}>
+              {% if block.settings.link != blank %}
+                <a class="ec-sr__route-link" href="{{ block.settings.link }}">
+                  {{ block.settings.title | escape }}
+                  <span class="ec-sr__arrow" aria-hidden="true">&rarr;</span>
+                </a>
+              {% else %}
+                <span class="ec-sr__route-title">{{ block.settings.title | escape }}</span>
+              {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  {% endif %}
+</div>
+
+{% stylesheet %}
+  .ec-sr__bg {
+    background-color: var(--ec-ink);
+  }
+
+  .ec-sr {
+    color: var(--ec-cream);
+  }
+
+  .ec-sr__header {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+    margin-bottom: 3.5rem;
+  }
+
+  .ec-sr__title {
+    margin: 0;
+    font-family: var(--ec-display);
+    font-size: clamp(2.75rem, 7vw, 5.5rem);
+    line-height: 0.96;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .ec-sr__intro {
+    margin: 0;
+    max-width: 52ch;
+    color: rgb(244 239 229 / 0.78);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .ec-sr__cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    justify-self: start;
+    min-height: 3rem;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: var(--ec-red);
+    color: var(--ec-cream);
+    border: 1px solid var(--ec-red);
+    transition: background-color 0.3s var(--animation-easing);
+  }
+
+  .ec-sr__cta:hover {
+    background: var(--ec-red-hover);
+    border-color: var(--ec-red-hover);
+  }
+
+  .ec-sr__pillars {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .ec-sr__pillar {
+    border-top: 2px solid var(--ec-red);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.9rem;
+  }
+
+  .ec-sr__num {
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ec-red);
+  }
+
+  .ec-sr__pillar-title {
+    margin: 0;
+    font-family: var(--ec-display);
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+    line-height: 1;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .ec-sr__pillar-desc {
+    margin: 0;
+    max-width: 34ch;
+    color: rgb(244 239 229 / 0.72);
+    line-height: 1.6;
+  }
+
+  .ec-sr__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    align-self: flex-start;
+    margin-top: 0.4rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    color: var(--ec-cream);
+    border-bottom: 1px solid var(--ec-red);
+    padding-bottom: 0.25rem;
+    transition: color 0.3s var(--animation-easing);
+  }
+
+  .ec-sr__arrow {
+    transition: transform 0.3s var(--animation-easing);
+  }
+
+  .ec-sr__link:hover {
+    color: var(--ec-red);
+  }
+
+  .ec-sr__link:hover .ec-sr__arrow,
+  .ec-sr__route-link:hover .ec-sr__arrow {
+    transform: translateX(6px);
+  }
+
+  .ec-sr__routes {
+    margin-top: 3.5rem;
+    border-top: 1px solid rgb(244 239 229 / 0.18);
+    padding-top: 1.5rem;
+  }
+
+  .ec-sr__routes-label {
+    display: block;
+    margin-bottom: 1.25rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: rgb(244 239 229 / 0.55);
+  }
+
+  .ec-sr__routes-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .ec-sr__route-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-family: var(--font-subheading--family);
+    font-size: 1rem;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    color: var(--ec-cream);
+    transition: color 0.3s var(--animation-easing);
+  }
+
+  .ec-sr__route-link:hover {
+    color: var(--ec-red);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ec-sr__header {
+      grid-template-columns: 7fr 5fr;
+      align-items: end;
+      column-gap: 2.5rem;
+    }
+
+    .ec-sr__header .ec-eyebrow,
+    .ec-sr__header .ec-sr__title {
+      grid-column: 1;
+    }
+
+    .ec-sr__header .ec-sr__intro,
+    .ec-sr__header .ec-sr__cta {
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      align-self: end;
+    }
+
+    .ec-sr__pillars {
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2.5rem;
+    }
+
+    .ec-sr__routes-list {
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Tu estación, tus reglas",
+  "tag": "section",
+  "class": "ec-station-rules-section",
+  "max_blocks": 7,
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Tu espacio"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Tu estación, tus reglas."
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Texto introductorio",
+      "default": "Tu cuenta es tu estación: guarda tus datos, organiza tus compras por tipo y vuelve a pedir lo que usas todos los días."
+    },
+    {
+      "type": "header",
+      "content": "Botón principal"
+    },
+    {
+      "type": "text",
+      "id": "primary_label",
+      "label": "Texto del botón",
+      "default": "Entrar a Mi Estación"
+    },
+    {
+      "type": "url",
+      "id": "primary_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Relleno superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Relleno inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "blocks": [
+    {
+      "type": "pillar",
+      "name": "Pilar",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "textarea",
+          "id": "description",
+          "label": "Descripción"
+        },
+        {
+          "type": "text",
+          "id": "link_label",
+          "label": "Texto del enlace"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
+      ]
+    },
+    {
+      "type": "route",
+      "name": "Ruta rápida",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Título"
+        },
+        {
+          "type": "url",
+          "id": "link",
+          "label": "Enlace"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tu estación, tus reglas",
+      "category": "El Chacho",
+      "blocks": {
+        "pillar_1": { "type": "pillar", "settings": { "title": "Tu cuenta" } },
+        "pillar_2": { "type": "pillar", "settings": { "title": "Organiza por tipo" } },
+        "pillar_3": { "type": "pillar", "settings": { "title": "Vuelve a pedir" } },
+        "route_1": { "type": "route", "settings": { "title": "Reabastecer" } },
+        "route_2": { "type": "route", "settings": { "title": "Mejorar el equipo" } },
+        "route_3": { "type": "route", "settings": { "title": "Equipar una estación" } },
+        "route_4": { "type": "route", "settings": { "title": "Comprar por volumen" } }
+      },
+      "block_order": ["pillar_1", "pillar_2", "pillar_3", "route_1", "route_2", "route_3", "route_4"]
+    }
+  ]
+}
+{% endschema %}

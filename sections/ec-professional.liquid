@@ -1,0 +1,227 @@
+{% comment %}
+  Sección "Compra profesional y volumen" del rediseño El Chacho — Supply Culture.
+  Comunica el enfoque profesional sin prometer condiciones comerciales no confirmadas.
+{% endcomment %}
+
+<div class="section-background ec-pro__bg"></div>
+<div
+  class="ec-pro section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div class="ec-pro__inner">
+    <div class="ec-pro__head">
+      {% if section.settings.eyebrow != blank %}
+        <p class="ec-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      <h2 class="ec-pro__title">{{ section.settings.title | escape }}</h2>
+    </div>
+
+    <div class="ec-pro__body">
+      {% if section.settings.text != blank %}
+        <p class="ec-pro__text">{{ section.settings.text | escape }}</p>
+      {% endif %}
+
+      <div class="ec-pro__actions">
+        {% if section.settings.cta_link != blank %}
+          <a class="ec-pro__btn ec-pro__btn--primary" href="{{ section.settings.cta_link }}">
+            {{- section.settings.cta_label | escape -}}
+          </a>
+        {% endif %}
+        {% if section.settings.secondary_link != blank %}
+          <a class="ec-pro__btn ec-pro__btn--ghost" href="{{ section.settings.secondary_link }}">
+            {{- section.settings.secondary_label | escape -}}
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ec-pro__bg {
+    background-color: var(--ec-ink);
+  }
+
+  .ec-pro {
+    color: var(--ec-cream);
+  }
+
+  .ec-pro__inner {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+
+  .ec-pro__title {
+    margin: 1.25rem 0 0;
+    font-family: var(--ec-display);
+    font-size: clamp(2.75rem, 7vw, 6rem);
+    line-height: 0.96;
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+  }
+
+  .ec-pro__body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+  }
+
+  .ec-pro__text {
+    margin: 0;
+    max-width: 42ch;
+    color: rgb(244 239 229 / 0.78);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .ec-pro__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .ec-pro__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.9rem 2rem;
+    font-family: var(--font-subheading--family);
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid transparent;
+    transition: background-color 0.3s var(--animation-easing), color 0.3s var(--animation-easing);
+  }
+
+  .ec-pro__btn--primary {
+    background: var(--ec-red);
+    color: var(--ec-cream);
+    border-color: var(--ec-red);
+  }
+
+  .ec-pro__btn--primary:hover {
+    background: var(--ec-red-hover);
+    border-color: var(--ec-red-hover);
+  }
+
+  .ec-pro__btn--ghost {
+    background: transparent;
+    color: var(--ec-cream);
+    border-color: rgb(244 239 229 / 0.4);
+  }
+
+  .ec-pro__btn--ghost:hover {
+    border-color: var(--ec-cream);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ec-pro__inner {
+      grid-template-columns: 7fr 5fr;
+      align-items: end;
+    }
+
+    .ec-pro__body {
+      padding-bottom: 0.5rem;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Compra profesional",
+  "tag": "section",
+  "class": "ec-professional-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Compra profesional"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Surte tu estación."
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Texto",
+      "default": "Opciones para barberías, equipos de trabajo y compras de mayor volumen. Arma tu pedido con los productos que tu estación necesita."
+    },
+    {
+      "type": "header",
+      "content": "Botones"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón principal",
+      "default": "Ver paquetes"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Enlace del botón principal"
+    },
+    {
+      "type": "text",
+      "id": "secondary_label",
+      "label": "Texto del botón secundario",
+      "default": "Contacto"
+    },
+    {
+      "type": "url",
+      "id": "secondary_link",
+      "label": "Enlace del botón secundario (opcional)"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Relleno superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Relleno inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Compra profesional",
+      "category": "El Chacho"
+    }
+  ]
+}
+{% endschema %}

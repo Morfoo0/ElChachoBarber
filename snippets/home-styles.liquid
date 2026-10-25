@@ -1,20 +1,79 @@
 {% comment %}
-  Ajustes de estilo de la página principal (home).
-  - El carrusel del banner muestra la imagen completa (sin recortes).
-  El fondo de página se mantiene en blanco (valor por defecto del tema).
+  Estilos específicos de la página principal (home) — El Chacho "Supply Culture".
+  - Hero editorial con composición a la izquierda y degradado de contraste.
+  - El carrusel conserva las 4 campañas y usa la imagen completa en móvil.
 {% endcomment %}
 
 {% style %}
-  /* Carrusel del home:
-     - Desktop: llena todo (cover).
-     - Móvil: muestra la imagen completa (contain) como respaldo mientras no haya
-       una imagen móvil definida por slide (campo "Imagen (móvil)").
-       Cuando se suban las imágenes móviles, se puede quitar esta regla de móvil. */
+  /* Hero del home: altura editorial y composición abajo-izquierda */
+  #MainContent[data-template='index'] .slideshow-section slideshow-component {
+    --slide-min-height: 76svh !important;
+    --slide-min-height-desktop: 84svh !important;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section slideshow-slide .slide__image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    background: linear-gradient(
+      90deg,
+      rgb(11 11 11 / 0.86) 0%,
+      rgb(11 11 11 / 0.5) 46%,
+      rgb(11 11 11 / 0.06) 74%
+    );
+    pointer-events: none;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section .slide__content {
+    z-index: 2;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section .slide__content .text-block {
+    color: #f4efe5;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section .slide__content h1,
+  #MainContent[data-template='index'] .slideshow-section .slide__content h2 {
+    font-family: var(--ec-display);
+    font-size: clamp(2.6rem, 6.5vw, 6rem);
+    line-height: 0.98;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    color: #f4efe5;
+    text-shadow: 0 2px 40px rgb(0 0 0 / 0.45);
+    margin: 0;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section .slide__content .text-block h1,
+  #MainContent[data-template='index'] .slideshow-section .slide__content .text-block h2 {
+    max-width: 11ch;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section slideshow-arrows .slideshow-control {
+    color: #f4efe5;
+    background: rgb(11 11 11 / 0.4);
+    border: 1px solid rgb(244 239 229 / 0.35);
+    border-radius: 0;
+  }
+
+  #MainContent[data-template='index'] .slideshow-section slideshow-arrows .slideshow-control:hover,
+  #MainContent[data-template='index'] .slideshow-section slideshow-arrows .slideshow-control:focus-visible {
+    color: #f4efe5;
+    background: var(--ec-red);
+    border-color: var(--ec-red);
+  }
+
+  /* En móvil, si un slide no tiene imagen móvil definida, mostramos la imagen completa. */
   @media screen and (max-width: 749px) {
     #MainContent[data-template='index'] slideshow-slide:not(:has(picture.slide__image-container__picture)) .slide__image,
     #MainContent[data-template='index'] slideshow-slide:not(:has(picture.slide__image-container__picture)) .slide__video,
     #MainContent[data-template='index'] slideshow-slide:not(:has(picture.slide__image-container__picture)) .slide__video-poster {
       object-fit: contain;
+    }
+
+    #MainContent[data-template='index'] .slideshow-section slideshow-component {
+      --slide-min-height: 78svh !important;
     }
   }
 {% endstyle %}

@@ -4,7 +4,10 @@
 
 {% liquid
   assign image_fallback = blank
-  if collection.image == blank and block.settings.fallback_image != blank
+  assign override_handles = 'promociones-y-paquetes' | split: ','
+  if override_handles contains collection.handle and block.settings.override_image != blank
+    assign image_fallback = block.settings.override_image
+  elsif collection.image == blank and collection.products.first == blank and block.settings.fallback_image != blank
     assign image_fallback = block.settings.fallback_image
   endif
 %}
@@ -84,6 +87,12 @@
       "id": "fallback_image",
       "label": "Imagen de respaldo",
       "info": "Se usa cuando la colección no tiene imagen destacada."
+    },
+    {
+      "type": "image_picker",
+      "id": "override_image",
+      "label": "Imagen de acceso directo",
+      "info": "Sobrescribe la imagen de las colecciones 'insumos' y 'promociones-y-paquetes'."
     },
     {
       "type": "header",

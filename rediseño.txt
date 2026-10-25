@@ -1,0 +1,446 @@
+# REDISEÑO OFICIAL — EL CHACHO BARBER SUPPLY
+## Implementación fiel del diseño aprobado: “EL CHACHO — SUPPLY CULTURE”
+
+### 1. OBJETIVO PRINCIPAL
+
+Rediseña la página web existente de **El Chacho Barber Supply** siguiendo fielmente la propuesta visual aprobada denominada **“EL CHACHO — SUPPLY CULTURE”**.
+
+El diseño ya fue aprobado. No debes proponer una nueva dirección creativa, reinterpretar el concepto, simplificar las secciones ni sustituir el diseño por una plantilla genérica de ecommerce.
+
+**La instrucción es IMPLEMENTAR, NO REDISEÑAR EL DISEÑO APROBADO.**
+
+Mantén todos los elementos definidos en la propuesta:
+- Estructura completa de la página.
+- Paleta de colores.
+- Tipografías y jerarquías visuales.
+- Estilo editorial y cinematográfico.
+- Fotografías y composición de las campañas.
+- Textos, títulos y mensajes.
+- Botones, enlaces y llamadas a la acción.
+- Categorías, productos, marcas y navegación.
+- Sección “Mi estación”.
+- Experiencia de compra profesional.
+- Pie de página y elementos secundarios.
+- Comportamiento responsive en móvil, tablet y escritorio.
+- Animaciones y transiciones visuales, cuando correspondan al diseño y no perjudiquen el rendimiento.
+
+La fidelidad visual tiene prioridad sobre cualquier preferencia estética nueva que puedas proponer.
+
+---
+
+### 2. ANTES DE ESCRIBIR CÓDIGO
+
+Primero inspecciona el proyecto existente para identificar:
+
+1. Framework, arquitectura y estructura de archivos.
+2. Página de inicio y componentes reutilizables.
+3. Sistema de estilos, fuentes, variables y configuración de diseño.
+4. Catálogo, imágenes, logos, categorías, marcas y datos de productos existentes.
+5. Sistema de navegación, carrito, búsqueda, filtros y enlaces.
+6. Integraciones de ecommerce, pagos, inventario y checkout.
+7. Componentes que puedan reutilizarse sin alterar el diseño aprobado.
+
+Si la propuesta visual está disponible en los archivos del proyecto, notas o documentación conectada, úsala como referencia prioritaria.
+
+No reconstruyas funcionalidades que ya existen. No cambies de framework ni sustituyas la infraestructura por conveniencia.
+
+Antes de realizar cambios, identifica los archivos que necesitas modificar y conserva el comportamiento actual de la tienda.
+
+---
+
+### 3. IDENTIDAD VISUAL OBLIGATORIA
+
+Nombre de la marca: **EL CHACHO BARBER SUPPLY**
+
+Concepto creativo: **EL CHACHO — SUPPLY CULTURE**
+
+La web debe transmitir cultura barberil, oficio, precisión, carácter, herramientas profesionales y una marca con identidad propia.
+
+#### Paleta de colores
+
+Conserva la paleta aprobada:
+- Negro: color principal, fondos oscuros, encabezados y secciones de alto impacto.
+- Blanco roto / crema: fondos claros, áreas editoriales y contraste visual.
+- Rojo: acento de marca para llamadas a la acción, detalles gráficos, indicadores y elementos seleccionados.
+
+No conviertas el rojo en el color dominante de toda la interfaz. Debe funcionar como acento visual con intención.
+
+No agregues gradientes llamativos, colores adicionales, sombras excesivas, efectos glassmorphism ni estilos ajenos a la identidad aprobada.
+
+Si el proyecto contiene los códigos exactos de color, reutilízalos. Si no están definidos, establece variables centrales coherentes con la propuesta y evita dispersar valores de color por los componentes.
+
+#### Tipografía
+
+Usa una tipografía editorial, contundente y expresiva para titulares; una tipografía muy legible para navegación, fichas de producto, precios y contenido funcional.
+
+Conserva las jerarquías:
+- Titulares grandes y con personalidad.
+- Mensajes cortos de campaña.
+- Etiquetas y textos secundarios compactos.
+- Espaciado intencional.
+- Contraste tipográfico marcado.
+
+Reutiliza las fuentes ya incluidas en el proyecto si coinciden con el diseño. No inventes una identidad tipográfica nueva.
+
+#### Dirección artística
+
+La composición debe sentirse como una campaña editorial de barbería profesional, no como una plantilla comercial prefabricada.
+
+Usa:
+- Composiciones asimétricas y equilibradas.
+- Fotografía de alto impacto.
+- Espacios negativos generosos.
+- Bloques visuales de diferentes proporciones.
+- Contraste entre áreas oscuras y claras.
+- Imágenes que muestren herramientas, texturas, productos y cultura barberil.
+- Encuadres cuidados y tratamiento visual consistente.
+
+Evita:
+- Un grid uniforme para toda la página.
+- Tarjetas genéricas repetidas en todas las secciones.
+- Apariencia de dashboard.
+- Iconos decorativos innecesarios.
+- Bordes redondeados excesivos.
+- Grandes cantidades de texto en el hero.
+- Animaciones que distraigan de los productos.
+
+---
+
+### 4. ESTRUCTURA COMPLETA DE LA PÁGINA
+
+Respeta el siguiente orden y conserva cada sección.
+
+#### SECCIÓN A — HEADER Y NAVEGACIÓN
+
+Construye el encabezado de acuerdo con el diseño aprobado.
+
+Debe conservar:
+- Identidad y logotipo de El Chacho Barber Supply.
+- Navegación principal.
+- Acceso al catálogo y categorías.
+- Búsqueda de productos, si existe en la tienda actual.
+- Acceso al carrito.
+- Acceso a la cuenta del cliente, si existe.
+- Comportamiento adaptado a móvil.
+
+El encabezado debe ser limpio, funcional y coherente con la identidad editorial.
+
+No agregues enlaces de relleno. Conserva las rutas reales y conecta los controles con las funciones existentes.
+
+#### SECCIÓN B — HERO / CARRUSEL DE CAMPAÑA
+
+El hero debe tener protagonismo visual y funcionar como la entrada principal a la identidad de marca.
+
+Implementa las cuatro campañas definidas:
+
+**Slide 1 — Herramientas**
+
+Titular:
+“EL TRABAJO NO SE DETIENE.”
+
+Enfoque: máquinas, herramientas de corte y equipo profesional.
+
+**Slide 2 — Cuidado**
+
+Titular:
+“EL CORTE TERMINA. EL CUIDADO NO.”
+
+Enfoque: productos de cuidado capilar, barba, piel y acabado.
+
+**Slide 3 — Accesorios**
+
+Titular:
+“LOS DETALLES HACEN EL OFICIO.”
+
+Enfoque: accesorios, utensilios y elementos que completan la estación barberil.
+
+**Slide 4 — Reabastecimiento**
+
+Titular:
+“QUE NUNCA TE FALTE LO ESENCIAL.”
+
+Enfoque: consumibles y productos de reposición frecuente.
+
+Cada slide debe tener:
+- Una imagen de campaña apropiada.
+- Titular exacto.
+- Contraste suficiente para leer el texto.
+- Llamada a la acción coherente con el contenido.
+- Destino de navegación real.
+- Indicadores y controles de navegación cuando correspondan al diseño aprobado.
+
+El carrusel debe funcionar con ratón, teclado y pantalla táctil. Si se implementa reproducción automática, permite pausarla o detenerla al interactuar, respeta la preferencia de movimiento reducido y evita cambios que dificulten la lectura.
+
+No sustituyas el carrusel de cuatro campañas por una sola imagen estática.
+
+#### SECCIÓN C — CATEGORÍAS PRINCIPALES
+
+Presenta las categorías de forma visual y diferenciada, conservando el estilo editorial:
+
+1. Máquinas.
+2. Cuchillas.
+3. Cuidado.
+4. Accesorios.
+
+Cada categoría debe incluir su imagen o tratamiento visual, nombre y enlace funcional al listado correspondiente.
+
+Usa la composición y jerarquía del diseño aprobado. No fuerces todas las categorías a ser tarjetas idénticas si la propuesta plantea una disposición asimétrica.
+
+Si la tienda usa nombres oficiales distintos para las categorías, conserva la nomenclatura real del catálogo y adapta únicamente la presentación visual cuando sea necesario.
+
+#### SECCIÓN D — PRODUCTOS DESTACADOS
+
+Título exacto:
+“HERRAMIENTAS QUE SE GANAN SU LUGAR.”
+
+Implementa una sección editorial de productos seleccionados.
+
+Cada producto debe mostrar, según los datos disponibles:
+- Imagen real.
+- Nombre.
+- Precio.
+- Precio de oferta, cuando corresponda.
+- Disponibilidad.
+- Marca o atributo relevante, cuando corresponda.
+- Acceso a detalles del producto.
+- Acción para añadir al carrito cuando sea compatible con el flujo de compra actual.
+
+Respeta las imágenes, nombres, precios, inventario y variantes procedentes del sistema real.
+
+No inventes productos, descuentos, valoraciones, existencias ni precios. No uses contenido ficticio como sustituto silencioso del catálogo.
+
+Los productos deben tener una presentación visual coherente con la propuesta, sin perder claridad ni facilidad de compra.
+
+#### SECCIÓN E — “MI ESTACIÓN”
+
+Esta sección es un elemento importante de la experiencia y debe conservarse completa.
+
+Título:
+“MI ESTACIÓN”
+
+Presenta cuatro rutas de compra:
+
+1. **Reabastecer**
+   Para volver a comprar consumibles y productos de uso frecuente.
+
+2. **Mejorar el equipo**
+   Para explorar máquinas, herramientas y equipamiento profesional.
+
+3. **Equipar una estación**
+   Para encontrar productos que ayuden a completar o preparar una estación barberil.
+
+4. **Comprar por volumen**
+   Para explorar opciones profesionales o compras de mayor cantidad, cuando la tienda las ofrezca.
+
+Cada ruta debe tener su propio enlace o acción funcional. Si la propuesta utiliza imágenes, bloques asimétricos o llamadas gráficas, conserva ese lenguaje visual.
+
+No conviertas esta sección en un panel administrativo ni en una cuadrícula genérica de cuatro tarjetas.
+
+Si alguna ruta requiere una funcionalidad comercial que todavía no existe, identifica esa dependencia y no simules que está operativa.
+
+#### SECCIÓN F — MARCAS
+
+Incluye el bloque de marcas que maneja la tienda.
+
+Conserva los logos y nombres reales disponibles. Respeta sus proporciones, legibilidad y contraste.
+
+La sección puede utilizar una composición editorial o una franja visual de marcas conforme al diseño aprobado.
+
+No inventes alianzas, logotipos ni marcas distribuidas por la empresa.
+
+Los logos deben adaptarse a pantallas pequeñas sin deformarse.
+
+#### SECCIÓN G — COMPRA PROFESIONAL Y VOLUMEN
+
+Conserva la sección que comunica el enfoque profesional de El Chacho Barber Supply.
+
+Debe orientar a los barberos, profesionales y compradores por volumen hacia las opciones disponibles.
+
+Respeta el tono de marca y utiliza llamadas a la acción concretas. Conecta las acciones a las páginas, formularios o canales reales del negocio.
+
+No prometas descuentos, cuentas profesionales, beneficios exclusivos o condiciones comerciales que no estén implementados o confirmados.
+
+#### SECCIÓN H — FOOTER
+
+Conserva el pie de página completo, con el estilo visual aprobado.
+
+Incluye los elementos reales disponibles:
+- Identidad de marca.
+- Navegación secundaria.
+- Contacto.
+- Redes sociales.
+- Información de atención al cliente.
+- Políticas de compra, envío, cambios y privacidad, si existen.
+- Información legal y copyright.
+
+No inventes datos de contacto, direcciones, perfiles sociales ni políticas.
+
+Comprueba que los enlaces funcionen y que el footer conserve el contraste correcto tanto en escritorio como en móvil.
+
+---
+
+### 5. BOTONES, ENLACES E INTERACCIONES
+
+**Todos los botones y llamadas a la acción del diseño aprobado deben conservarse.**
+
+Respeta sus textos originales, jerarquía, ubicación, tamaños relativos, colores, tipografía y tratamiento visual.
+
+No sustituyas botones por enlaces de texto si el diseño aprobado utiliza botones. No cambies botones destacados por componentes genéricos.
+
+Cada botón debe tener una acción real:
+- Navegar a una categoría o producto.
+- Abrir el destino comercial correspondiente.
+- Añadir al carrito.
+- Continuar con el proceso de compra.
+- Ejecutar la función existente para la que fue diseñado.
+
+Comprueba también:
+- Hover y focus.
+- Estados activos y deshabilitados.
+- Retroalimentación al añadir productos.
+- Accesibilidad mediante teclado.
+- Áreas táctiles suficientes en móvil.
+- Estados de carga y error cuando sean necesarios.
+
+No dejes botones sin destino, enlaces `#` sin propósito ni controles puramente decorativos que aparenten ser funcionales.
+
+---
+
+### 6. FUNCIONALIDAD DE LA TIENDA: NO ROMPER NADA
+
+Este proyecto es un rediseño visual de una tienda existente, no una reconstrucción del negocio desde cero.
+
+Preserva las funcionalidades actuales:
+- Navegación y rutas.
+- Catálogo.
+- Búsqueda.
+- Filtros y ordenamiento.
+- Variantes de producto.
+- Precios y promociones.
+- Disponibilidad e inventario.
+- Carrito.
+- Checkout y pagos.
+- Cuenta del cliente.
+- Integraciones existentes.
+- Analítica y seguimiento, cuando estén configurados.
+- SEO y metadatos importantes.
+
+No elimines integraciones, dependencias o componentes funcionales simplemente porque no sean visibles en la página principal.
+
+No cambies el backend, la estructura de datos, el proveedor de pagos o el sistema de inventario a menos que sea estrictamente necesario y esté justificado.
+
+Si encuentras una incompatibilidad entre el diseño y una funcionalidad existente, conserva la funcionalidad y adapta su presentación sin desviarte innecesariamente de la propuesta.
+
+---
+
+### 7. RESPONSIVE: MISMO DISEÑO EN TODOS LOS DISPOSITIVOS
+
+El diseño debe adaptarse cuidadosamente a escritorio, tablet y móvil.
+
+**Escritorio**
+- Mantén la composición editorial, las proporciones y el impacto de las imágenes.
+- Conserva los espacios negativos y las jerarquías de la propuesta.
+- Evita estirar las secciones hasta que pierdan su composición.
+
+**Tablet**
+- Ajusta columnas, imágenes y espaciados sin perder la identidad.
+- Mantén legibles los titulares y accesibles los controles.
+
+**Móvil**
+- Conserva las cuatro campañas.
+- Reorganiza las composiciones de forma intencional, no mediante una reducción automática de todo.
+- Ajusta la tipografía sin cortar los titulares.
+- Mantén visibles los botones importantes.
+- Evita desbordamientos horizontales.
+- Garantiza que las categorías y productos sean fáciles de explorar.
+- Adapta la navegación y los controles al uso táctil.
+
+No ocultes secciones importantes solo para simplificar la versión móvil.
+
+---
+
+### 8. IMÁGENES Y RECURSOS VISUALES
+
+Prioriza los recursos existentes del proyecto y los aprobados para la propuesta.
+
+Si faltan imágenes, identifica claramente qué recursos deben proporcionarse y utiliza únicamente recursos de reemplazo coherentes con la identidad visual, sin hacerlos pasar por fotografías oficiales de la marca.
+
+Mantén proporciones, encuadres y puntos focales consistentes. Usa `object-fit` y posiciones focales cuando corresponda, verificando que los productos y textos integrados en las imágenes no queden recortados.
+
+Optimiza las imágenes y evita cargar recursos innecesariamente grandes. Usa carga diferida en imágenes fuera de la primera vista cuando sea apropiado, sin retrasar el contenido principal del hero.
+
+No reemplaces las fotografías de campaña por iconos, emojis, ilustraciones genéricas o imágenes aleatorias de productos.
+
+---
+
+### 9. CALIDAD TÉCNICA Y ACCESIBILIDAD
+
+Implementa el diseño con componentes mantenibles y reutilizables, respetando las convenciones del proyecto existente.
+
+Requisitos:
+- Código limpio y consistente.
+- Estilos compartidos mediante variables o tokens cuando corresponda.
+- HTML semántico.
+- Contraste legible.
+- Texto alternativo para imágenes relevantes.
+- Etiquetas accesibles en botones y controles.
+- Navegación por teclado.
+- Estados de foco visibles.
+- Respeto por `prefers-reduced-motion`.
+- Buen rendimiento.
+- Sin errores de consola.
+- Sin recursos rotos.
+- Sin errores de compilación.
+- Sin desbordamientos horizontales.
+- Sin duplicación innecesaria de componentes o estilos.
+
+No añadas librerías pesadas para resolver problemas que el stack actual ya permite solucionar.
+
+---
+
+### 10. CRITERIOS DE ACEPTACIÓN: EL DISEÑO DEBE QUEDAR FIEL AL APROBADO
+
+Antes de terminar, verifica punto por punto:
+
+- [ ] Se conserva la estructura completa de la propuesta.
+- [ ] La paleta negro, blanco roto y rojo se mantiene.
+- [ ] Se conserva la identidad “EL CHACHO — SUPPLY CULTURE”.
+- [ ] Se respeta la dirección artística editorial y cinematográfica.
+- [ ] El hero incluye las cuatro campañas con sus titulares exactos.
+- [ ] Se conservan las categorías Máquinas, Cuchillas, Cuidado y Accesorios.
+- [ ] Se mantiene “HERRAMIENTAS QUE SE GANAN SU LUGAR.”
+- [ ] La sección “MI ESTACIÓN” incluye las cuatro rutas de compra.
+- [ ] Se conserva la sección de marcas.
+- [ ] Se conserva la sección de compra profesional y por volumen.
+- [ ] Se conserva el footer.
+- [ ] Los botones mantienen su estilo y ubicación conforme al diseño.
+- [ ] Todas las acciones y enlaces relevantes funcionan.
+- [ ] Los datos comerciales provienen de la tienda real.
+- [ ] Carrito, búsqueda y checkout siguen funcionando.
+- [ ] La experiencia es correcta en escritorio, tablet y móvil.
+- [ ] No existen errores de compilación ni errores importantes en consola.
+- [ ] No se han introducido secciones nuevas que alteren la estructura aprobada.
+- [ ] No se ha sustituido el diseño por una plantilla genérica.
+
+Realiza una revisión visual comparando el resultado con la propuesta aprobada. Si existen herramientas de captura de pantalla en el entorno, revisa la página en escritorio y móvil y corrige las diferencias evidentes.
+
+---
+
+### 11. FORMA DE TRABAJO
+
+Trabaja directamente sobre el proyecto existente.
+
+1. Inspecciona la estructura y las funcionalidades.
+2. Identifica los componentes y estilos que deben cambiar.
+3. Implementa el diseño aprobado de manera integral.
+4. Ejecuta las comprobaciones y pruebas disponibles.
+5. Corrige los errores y las diferencias visuales.
+6. Entrega un resumen de los archivos modificados, las funcionalidades verificadas y cualquier recurso o dependencia que siga pendiente.
+
+No te limites a describir lo que harías ni a generar una maqueta aislada. Implementa el rediseño real en la aplicación.
+
+No des por terminado el trabajo solo porque la página compile. La fidelidad visual, las interacciones y la conservación de las funcionalidades son criterios obligatorios.
+
+### INSTRUCCIÓN FINAL
+
+**El diseño ya está aprobado. No solicito propuestas alternativas. Implementa la versión aprobada de El Chacho Barber Supply conservando estructura, paleta, tipografía, fotografías, textos, botones, secciones, jerarquías visuales e interacciones. No elimines, sustituyas ni simplifiques ningún elemento aprobado sin una razón técnica real. Si falta un recurso o existe una decisión que no puede deducirse del proyecto, documéntalo en lugar de inventarlo.**

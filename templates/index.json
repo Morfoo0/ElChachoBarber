@@ -1,1 +1,636 @@
-{"sections":{"collection_list_PVyBiq":{"type":"collection-list","blocks":{"group_A36GcV":{"type":"group","name":"t:names.header","settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"link":"","open_in_new_tab":false,"placeholder":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"text_XC6PDG":{"type":"text","name":"t:names.text","settings":{"text":"","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":16,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["text_XC6PDG"]},"static-collection-card":{"type":"_collection-card","name":"t:names.collection_card","static":true,"settings":{"placement":"on_image","horizontal_alignment":"flex-start","vertical_alignment":"flex-end","collection_card_gap":0,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"fallback_image":"shopify://shop_images/323e733b-e028-4ba6-8cd8-82581bc78086.png"},"blocks":{"collection_title_k4KNhy":{"type":"collection-title","name":"t:names.collection_title","settings":{"width":"fit-content","max_width":"normal","alignment":"left","type_preset":"custom","font":"var(--font-heading--family)","font_size":"0.875rem","line_height":"loose","letter_spacing":"tight","case":"none","wrap":"nowrap","background":true,"background_color":"{{ settings.color_palette.color2 }}","text_color":"{{ settings.color_palette.background }}","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":8,"padding-inline-end":8},"blocks":{}},"collection-card-image":{"type":"_collection-card-image","name":"t:names.collection_card_image","static":true,"settings":{"image_ratio":"landscape","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0},"blocks":{}}},"block_order":["collection_title_k4KNhy"]}},"block_order":["group_A36GcV"],"name":"t:names.collections_grid","settings":{"collection_list":["insumos","herramientas","droop-del-mes","promociones-y-paquetes"],"layout_type":"grid","carousel_on_mobile":false,"columns":4,"mobile_columns":"1","mobile_card_size":"60cqw","columns_gap":8,"bento_gap":8,"rows_gap":8,"max_collections":4,"icons_style":"arrow","icons_shape":"none","section_width":"page-width","gap":12,"background_color":"","padding-block-start":48,"padding-block-end":48}},"1790988484720e9a22":{"type":"_blocks","blocks":{"ai_gen_block_de5bc46_wUYtei":{"type":"ai_gen_block_de5bc46","settings":{"eyebrow":"PROMOCIÓN ESPECIAL","title":"Descubre nuestro combo especial","description":"Todo lo que necesitas, en una sola oferta.","button_label":"Ver combo","promo_link":"shopify://collections/promociones-y-paquetes","open_new_tab":false,"desktop_width_percent":100,"background_color":"{{ settings.color_palette.color2 }}","text_color":"#ffffff","title_size":28,"corner_radius":8},"blocks":{}}},"block_order":["ai_gen_block_de5bc46_wUYtei"],"settings":{"content_direction":"column","vertical_on_mobile":true,"horizontal_alignment":"flex-start","vertical_alignment":"center","align_baseline":false,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"section_width":"page-width","section_height":"","section_height_custom":50,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","toggle_overlay":false,"overlay_color":"#00000026","overlay_style":"solid","gradient_direction":"to top","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0}},"product_list_fa6P9H":{"type":"product-list","blocks":{"static-header":{"type":"_product-list-content","name":"t:names.header","static":true,"settings":{"content_direction":"row","vertical_on_mobile":false,"horizontal_alignment":"space-between","vertical_alignment":"flex-end","align_baseline":true,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_list_text_YFtzcL":{"type":"_product-list-text","name":"t:names.collection_title","settings":{"text":"<h3>{{ closest.collection.title }}</h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_list_button_MWeP9V":{"type":"_product-list-button","name":"t:names.product_list_button","settings":{"label":"View all","open_in_new_tab":false,"style_class":"link","custom_button_background":"{{ settings.color_palette.foreground }}","custom_button_text":"{{ settings.color_palette.background }}","custom_button_border":"{{ settings.color_palette.background }}","link_text_color":"","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["product_list_text_YFtzcL","product_list_button_MWeP9V"]},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":4,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_677WP3":{"type":"_product-card-gallery","name":"t:names.product_card_media","settings":{"image_ratio":"landscape","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_title_YXxMTj":{"type":"product-title","name":"t:names.product_title","settings":{"width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_JQzVV4":{"type":"price","name":"t:names.product_price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"{{ settings.color_palette.foreground }}","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["product_card_gallery_677WP3","product_title_YXxMTj","price_JQzVV4"]}},"name":"redone","settings":{"collection":"redone","layout_type":"carousel","carousel_on_mobile":false,"max_products":16,"columns":4,"mobile_columns":"2","mobile_card_size":"60cqw","columns_gap":8,"rows_gap":24,"icons_style":"chevron_large","icons_shape":"circle","section_width":"page-width","horizontal_alignment":"flex-start","gap":28,"background_color":"{{ settings.color_palette.background }}","padding-block-start":48,"padding-block-end":48}},"product_list_VJpb8Y":{"type":"product-list","blocks":{"static-header":{"type":"_product-list-content","name":"t:names.header","static":true,"settings":{"content_direction":"row","vertical_on_mobile":false,"horizontal_alignment":"space-between","vertical_alignment":"flex-end","align_baseline":true,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_list_text_zi9tnk":{"type":"_product-list-text","name":"t:names.collection_title","settings":{"text":"<h3>{{ closest.collection.title }}</h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_list_button_tkD88j":{"type":"_product-list-button","name":"t:names.product_list_button","settings":{"label":"View all","open_in_new_tab":false,"style_class":"link","custom_button_background":"{{ settings.color_palette.foreground }}","custom_button_text":"{{ settings.color_palette.background }}","custom_button_border":"{{ settings.color_palette.background }}","link_text_color":"","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["product_list_text_zi9tnk","product_list_button_tkD88j"]},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":4,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_7QNeRW":{"type":"_product-card-gallery","name":"t:names.product_card_media","settings":{"image_ratio":"landscape","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_title_JUqxfh":{"type":"product-title","name":"t:names.product_title","settings":{"width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_Gmf6yw":{"type":"price","name":"t:names.product_price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"h6","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["product_card_gallery_7QNeRW","product_title_JUqxfh","price_Gmf6yw"]}},"name":"enfriadores y lubricantes","settings":{"collection":"enfriadores-y-lubricantes","layout_type":"carousel","carousel_on_mobile":false,"max_products":16,"columns":4,"mobile_columns":"2","mobile_card_size":"60cqw","columns_gap":8,"rows_gap":24,"icons_style":"chevron_large","icons_shape":"circle","section_width":"page-width","horizontal_alignment":"flex-start","gap":28,"background_color":"{{ settings.color_palette.background }}","padding-block-start":48,"padding-block-end":48}},"product_list_LaLwBr":{"type":"product-list","blocks":{"static-header":{"type":"_product-list-content","name":"t:names.header","static":true,"settings":{"content_direction":"row","vertical_on_mobile":false,"horizontal_alignment":"space-between","vertical_alignment":"flex-end","align_baseline":true,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_list_text_xV8J9a":{"type":"_product-list-text","name":"t:names.collection_title","settings":{"text":"<h3>{{ closest.collection.title }}</h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_list_button_fJJejH":{"type":"_product-list-button","name":"t:names.product_list_button","settings":{"label":"View all","open_in_new_tab":false,"style_class":"link","custom_button_background":"{{ settings.color_palette.foreground }}","custom_button_text":"{{ settings.color_palette.background }}","custom_button_border":"{{ settings.color_palette.background }}","link_text_color":"","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["product_list_text_xV8J9a","product_list_button_fJJejH"]},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":4,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_kfbgXd":{"type":"_product-card-gallery","name":"t:names.product_card_media","settings":{"image_ratio":"landscape","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_title_BzQC6Y":{"type":"product-title","name":"t:names.product_title","settings":{"width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_G4jKEm":{"type":"price","name":"t:names.product_price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"h6","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["product_card_gallery_kfbgXd","product_title_BzQC6Y","price_G4jKEm"]}},"name":"Navajas","settings":{"collection":"navajas","layout_type":"carousel","carousel_on_mobile":false,"max_products":16,"columns":4,"mobile_columns":"2","mobile_card_size":"60cqw","columns_gap":8,"rows_gap":24,"icons_style":"chevron_large","icons_shape":"circle","section_width":"page-width","horizontal_alignment":"flex-start","gap":28,"background_color":"{{ settings.color_palette.background }}","padding-block-start":48,"padding-block-end":48}},"product_list_fndtVi":{"type":"product-list","blocks":{"static-header":{"type":"_product-list-content","name":"t:names.header","static":true,"settings":{"content_direction":"row","vertical_on_mobile":false,"horizontal_alignment":"space-between","vertical_alignment":"flex-end","align_baseline":true,"horizontal_alignment_flex_direction_column":"flex-start","vertical_alignment_flex_direction_column":"center","gap":12,"width":"fill","custom_width":100,"width_mobile":"fill","custom_width_mobile":100,"height":"fit","custom_height":100,"background_media":"none","background_color":"","video_position":"cover","background_image_position":"cover","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_list_text_HzB9wF":{"type":"_product-list-text","name":"t:names.collection_title","settings":{"text":"<h3>{{ closest.collection.title }}</h3>","width":"fit-content","max_width":"normal","alignment":"left","type_preset":"h4","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_list_button_HHikQA":{"type":"_product-list-button","name":"t:names.product_list_button","settings":{"label":"View all","open_in_new_tab":false,"style_class":"link","custom_button_background":"{{ settings.color_palette.foreground }}","custom_button_text":"{{ settings.color_palette.background }}","custom_button_border":"{{ settings.color_palette.background }}","link_text_color":"","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["product_list_text_HzB9wF","product_list_button_HHikQA"]},"static-product-card":{"type":"_product-card","name":"t:names.product_card","static":true,"settings":{"product_card_gap":4,"background_color":"","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{"product_card_gallery_GKfXmX":{"type":"_product-card-gallery","name":"t:names.product_card_media","settings":{"image_ratio":"landscape","border":"none","border_width":1,"border_opacity":100,"border_color":"","border_radius":0,"padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"product_title_pNdDtX":{"type":"product-title","name":"t:names.product_title","settings":{"width":"100%","max_width":"normal","alignment":"left","type_preset":"rte","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","wrap":"pretty","text_color":"","background":false,"background_color":"#00000026","corner_radius":0,"padding-block-start":4,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}},"price_qbbWPD":{"type":"price","name":"t:names.product_price","settings":{"show_sale_price_first":true,"show_installments":false,"show_tax_info":false,"type_preset":"h6","width":"100%","alignment":"left","font":"var(--font-body--family)","font_size":"1rem","line_height":"normal","letter_spacing":"normal","case":"none","text_color":"","padding-block-start":0,"padding-block-end":0,"padding-inline-start":0,"padding-inline-end":0},"blocks":{}}},"block_order":["product_card_gallery_GKfXmX","product_title_pNdDtX","price_qbbWPD"]}},"name":"Desechables","settings":{"collection":"guantes","layout_type":"carousel","carousel_on_mobile":false,"max_products":16,"columns":4,"mobile_columns":"2","mobile_card_size":"60cqw","columns_gap":8,"rows_gap":24,"icons_style":"chevron_large","icons_shape":"circle","section_width":"page-width","horizontal_alignment":"flex-start","gap":28,"background_color":"{{ settings.color_palette.background }}","padding-block-start":48,"padding-block-end":48}},"slideshow_banner":{"type":"slideshow","blocks":{"slide_productos":{"type":"_slide","settings":{"media_type_1":"image","image_1":"shopify://shop_images/Banner_1_Presentacion_Pc_jpg.jpg","horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"toggle_overlay":false,"overlay_color":"#00000059","overlay_style":"solid","padding-block-start":40,"padding-block-end":40,"padding-inline-start":24,"padding-inline-end":24,"image_mobile":"shopify://shop_images/Banner_1_Presentacion_Cel_jpg.jpg"},"blocks":{},"block_order":[]},"slide_promociones":{"type":"_slide","settings":{"media_type_1":"image","image_1":"shopify://shop_images/Banner_3_Presentacion_Pc_jpg.jpg","horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"toggle_overlay":true,"overlay_color":"#00000059","overlay_style":"solid","padding-block-start":40,"padding-block-end":40,"padding-inline-start":24,"padding-inline-end":24,"image_mobile":"shopify://shop_images/Banner_3_Presentacion_Cel_jpg.jpg"},"blocks":{"heading_promociones":{"type":"text","name":"t:names.heading","settings":{"text":"<h2>Promociones</h2>","type_preset":"h2","alignment":"center","text_color":"#ffffff"},"blocks":{}},"button_promociones":{"type":"button","name":"t:names.button","settings":{"label":"Ver promociones","link":"shopify://collections/promociones-y-paquetes","open_in_new_tab":false,"style_class":"button-custom","custom_button_background":"rgba(0,0,0,0)","custom_button_text":"#ffffff","custom_button_border":"#ffffff","width":"fit-content","custom_width":100,"width_mobile":"fit-content","custom_width_mobile":100},"blocks":{}}},"block_order":["heading_promociones","button_promociones"]},"slide_general":{"type":"_slide","settings":{"media_type_1":"image","image_1":"shopify://shop_images/Banner_General.jpg","image_mobile":"","horizontal_alignment_flex_direction_column":"center","vertical_alignment_flex_direction_column":"center","gap":12,"toggle_overlay":false,"overlay_color":"#00000059","overlay_style":"solid","padding-block-start":40,"padding-block-end":40,"padding-inline-start":24,"padding-inline-end":24},"blocks":{},"block_order":[]}},"block_order":["slide_productos","slide_promociones","slide_general"],"name":"t:names.slideshow","settings":{"display_mode":"full_frame","section_width":"full-width","slide_height":"medium","content_position":"on-media","icons_style":"arrows_large","icons_shape":"circle","slideshow_controls_style":"dots","autoplay":true,"autoplay_speed":5,"padding-block-start":0,"padding-block-end":0}}},"order":["slideshow_banner","collection_list_PVyBiq","1790988484720e9a22","product_list_fa6P9H","product_list_VJpb8Y","product_list_LaLwBr","product_list_fndtVi"]}
+{
+  "sections": {
+    "ec_hero": {
+      "type": "slideshow",
+      "settings": {
+        "display_mode": "full_frame",
+        "section_width": "full-width",
+        "slide_height": "large",
+        "content_position": "on-media",
+        "icons_style": "chevron",
+        "icons_shape": "none",
+        "slideshow_controls_style": "counter",
+        "autoplay": false,
+        "autoplay_speed": 5,
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      },
+      "blocks": {
+        "slide_1": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Banner_1_Presentacion_Pc_jpg.jpg",
+            "image_mobile": "shopify://shop_images/Banner_1_Presentacion_Cel_jpg.jpg",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 18,
+            "toggle_overlay": false,
+            "overlay_color": "#00000059",
+            "overlay_style": "solid",
+            "padding-block-start": 56,
+            "padding-block-end": 56,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>EL TRABAJO NO SE DETIENE.</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "button": {
+              "type": "button",
+              "settings": {
+                "label": "Ver herramientas",
+                "link": "shopify://collections/herramientas",
+                "open_in_new_tab": false,
+                "style_class": "button-custom",
+                "custom_button_background": "#990003",
+                "custom_button_text": "#F4EFE5",
+                "custom_button_border": "#990003",
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              }
+            }
+          },
+          "block_order": [
+            "heading",
+            "button"
+          ]
+        },
+        "slide_2": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Banner_2_Presentacion_Pc_jpg.jpg",
+            "image_mobile": "shopify://shop_images/Banner_2_Presentacion_Cel_jpg.jpg",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 18,
+            "toggle_overlay": false,
+            "overlay_color": "#00000059",
+            "overlay_style": "solid",
+            "padding-block-start": 56,
+            "padding-block-end": 56,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>EL CORTE TERMINA. EL CUIDADO NO.</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "button": {
+              "type": "button",
+              "settings": {
+                "label": "Ver cuidado",
+                "link": "shopify://collections/insumos",
+                "open_in_new_tab": false,
+                "style_class": "button-custom",
+                "custom_button_background": "#990003",
+                "custom_button_text": "#F4EFE5",
+                "custom_button_border": "#990003",
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              }
+            }
+          },
+          "block_order": [
+            "heading",
+            "button"
+          ]
+        },
+        "slide_3": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Banner_General.jpg",
+            "image_mobile": "shopify://shop_images/Banner_General.jpg",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 18,
+            "toggle_overlay": false,
+            "overlay_color": "#00000059",
+            "overlay_style": "solid",
+            "padding-block-start": 56,
+            "padding-block-end": 56,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>LOS DETALLES HACEN EL OFICIO.</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "button": {
+              "type": "button",
+              "settings": {
+                "label": "Ver accesorios",
+                "link": "shopify://collections/guantes",
+                "open_in_new_tab": false,
+                "style_class": "button-custom",
+                "custom_button_background": "#990003",
+                "custom_button_text": "#F4EFE5",
+                "custom_button_border": "#990003",
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              }
+            }
+          },
+          "block_order": [
+            "heading",
+            "button"
+          ]
+        },
+        "slide_4": {
+          "type": "_slide",
+          "settings": {
+            "media_type_1": "image",
+            "image_1": "shopify://shop_images/Banner_3_Presentacion_Pc_jpg.jpg",
+            "image_mobile": "shopify://shop_images/Banner_3_Presentacion_Cel_jpg.jpg",
+            "horizontal_alignment_flex_direction_column": "flex-start",
+            "vertical_alignment_flex_direction_column": "flex-end",
+            "gap": 18,
+            "toggle_overlay": false,
+            "overlay_color": "#00000059",
+            "overlay_style": "solid",
+            "padding-block-start": 56,
+            "padding-block-end": 56,
+            "padding-inline-start": 40,
+            "padding-inline-end": 40
+          },
+          "blocks": {
+            "heading": {
+              "type": "text",
+              "settings": {
+                "text": "<h2>QUE NUNCA TE FALTE LO ESENCIAL.</h2>",
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "h2",
+                "font": "var(--font-body--family)",
+                "font_size": "",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "text_color": "",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "button": {
+              "type": "button",
+              "settings": {
+                "label": "Reabastecer",
+                "link": "shopify://collections/insumos",
+                "open_in_new_tab": false,
+                "style_class": "button-custom",
+                "custom_button_background": "#990003",
+                "custom_button_text": "#F4EFE5",
+                "custom_button_border": "#990003",
+                "link_text_color": "",
+                "width": "fit-content",
+                "custom_width": 100,
+                "width_mobile": "fit-content",
+                "custom_width_mobile": 100
+              }
+            }
+          },
+          "block_order": [
+            "heading",
+            "button"
+          ]
+        }
+      },
+      "block_order": [
+        "slide_1",
+        "slide_2",
+        "slide_3",
+        "slide_4"
+      ]
+    },
+    "ec_categories": {
+      "type": "ec-categories",
+      "settings": {
+        "eyebrow": "Categorías",
+        "section_width": "page-width",
+        "gap": 16,
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      },
+      "blocks": {
+        "cat_1": {
+          "type": "category",
+          "settings": {
+            "collection": "herramientas",
+            "title": "Máquinas",
+            "image": ""
+          }
+        },
+        "cat_2": {
+          "type": "category",
+          "settings": {
+            "collection": "navajas",
+            "title": "Cuchillas",
+            "image": ""
+          }
+        },
+        "cat_3": {
+          "type": "category",
+          "settings": {
+            "collection": "insumos",
+            "title": "Cuidado",
+            "image": ""
+          }
+        },
+        "cat_4": {
+          "type": "category",
+          "settings": {
+            "collection": "guantes",
+            "title": "Accesorios",
+            "image": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat_1",
+        "cat_2",
+        "cat_3",
+        "cat_4"
+      ]
+    },
+    "ec_brands": {
+      "type": "ec-brands",
+      "settings": {
+        "eyebrow": "Marcas",
+        "section_width": "page-width",
+        "padding-block-start": 56,
+        "padding-block-end": 56
+      },
+      "blocks": {
+        "brand_1": {
+          "type": "brand",
+          "settings": {
+            "image": "",
+            "name": "",
+            "link": ""
+          }
+        },
+        "brand_2": {
+          "type": "brand",
+          "settings": {
+            "image": "",
+            "name": "",
+            "link": ""
+          }
+        },
+        "brand_3": {
+          "type": "brand",
+          "settings": {
+            "image": "",
+            "name": "",
+            "link": ""
+          }
+        },
+        "brand_4": {
+          "type": "brand",
+          "settings": {
+            "image": "",
+            "name": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "brand_1",
+        "brand_2",
+        "brand_3",
+        "brand_4"
+      ]
+    },
+    "ec_professional": {
+      "type": "ec-professional",
+      "settings": {
+        "eyebrow": "Compra profesional",
+        "title": "Surte tu estación.",
+        "text": "Opciones para barberías, equipos de trabajo y compras de mayor volumen. Arma tu pedido con los productos que tu estación necesita.",
+        "cta_label": "Ver paquetes",
+        "cta_link": "shopify://collections/promociones-y-paquetes",
+        "secondary_label": "Contacto",
+        "secondary_link": "",
+        "section_width": "page-width",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      }
+    },
+    "ec_tools_tabs": {
+      "type": "ec-tools-tabs",
+      "settings": {
+        "title": "Herramientas que se ganan su lugar.",
+        "empty_message": "Próximamente",
+        "section_width": "page-width",
+        "padding-block-start": 72,
+        "padding-block-end": 72,
+        "tab_1_label": "Máquinas",
+        "tab_1_collection": "herramientas",
+        "tab_1_filter": "",
+        "tab_1_max": 8,
+        "tab_1_groups": "",
+        "tab_2_label": "Navajas",
+        "tab_2_collection": "navajas",
+        "tab_2_filter": "",
+        "tab_2_max": 8,
+        "tab_2_groups": "",
+        "tab_3_label": "Enfriadores",
+        "tab_3_collection": "enfriadores-y-lubricantes",
+        "tab_3_filter": "",
+        "tab_3_max": 8,
+        "tab_3_groups": "",
+        "tab_4_label": "Desechables",
+        "tab_4_collection": "insumos",
+        "tab_4_filter": "guante,papel,cuello",
+        "tab_4_max": 8,
+        "tab_4_groups": "",
+        "tab_5_label": "Red One",
+        "tab_5_collection": "redone",
+        "tab_5_filter": "",
+        "tab_5_max": 12,
+        "tab_5_groups": "Wax|wax;Polvo texturizado|powder,polvo;Body Splash|body splash,cologne;Face Fresh|face fresh,shaving,gel de afeitar,exfoliante;Otros|"
+      },
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "Producto",
+          "static": true,
+          "settings": {
+            "product_card_gap": 8,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product-card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "product_title": {
+              "type": "product-title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "product-card-gallery",
+            "product_title",
+            "price"
+          ]
+        }
+      },
+      "block_order": []
+    },
+    "ec_station_bestsellers": {
+      "type": "ec-station-bestsellers",
+      "settings": {
+        "eyebrow": "Lo más vendido",
+        "title": "Mi Estación",
+        "intro": "Los productos que más se venden en El Chacho. Las herramientas y consumibles que los barberos eligen todos los días.",
+        "collection": "insumos",
+        "max_products": 8,
+        "view_all_label": "Ver todos",
+        "view_all_link": "",
+        "route_1_label": "Reabastecer",
+        "route_1_link": "shopify://collections/insumos",
+        "route_2_label": "Mejorar el equipo",
+        "route_2_link": "shopify://collections/herramientas",
+        "route_3_label": "Equipar una estación",
+        "route_3_link": "shopify://collections/promociones-y-paquetes",
+        "route_4_label": "Comprar por volumen",
+        "route_4_link": "shopify://collections/promociones-y-paquetes",
+        "section_width": "page-width",
+        "padding-block-start": 96,
+        "padding-block-end": 96
+      },
+      "blocks": {
+        "static-product-card": {
+          "type": "_product-card",
+          "name": "Producto",
+          "static": true,
+          "settings": {
+            "product_card_gap": 8,
+            "background_color": "",
+            "border": "none",
+            "border_width": 1,
+            "border_opacity": 100,
+            "border_radius": 0,
+            "padding-block-start": 0,
+            "padding-block-end": 0,
+            "padding-inline-start": 0,
+            "padding-inline-end": 0
+          },
+          "blocks": {
+            "product-card-gallery": {
+              "type": "_product-card-gallery",
+              "settings": {
+                "image_ratio": "portrait",
+                "border": "none",
+                "border_width": 1,
+                "border_opacity": 100,
+                "border_radius": 0,
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "product_title": {
+              "type": "product-title",
+              "settings": {
+                "width": "100%",
+                "max_width": "normal",
+                "alignment": "left",
+                "type_preset": "paragraph",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "wrap": "pretty",
+                "background": false,
+                "background_color": "#00000026",
+                "corner_radius": 0,
+                "padding-block-start": 8,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            },
+            "price": {
+              "type": "price",
+              "settings": {
+                "show_sale_price_first": true,
+                "show_installments": false,
+                "show_tax_info": false,
+                "type_preset": "h6",
+                "width": "100%",
+                "alignment": "left",
+                "font": "var(--font-body--family)",
+                "font_size": "1rem",
+                "line_height": "normal",
+                "letter_spacing": "normal",
+                "case": "none",
+                "text_color": "",
+                "padding-block-start": 0,
+                "padding-block-end": 0,
+                "padding-inline-start": 0,
+                "padding-inline-end": 0
+              }
+            }
+          },
+          "block_order": [
+            "product-card-gallery",
+            "product_title",
+            "price"
+          ]
+        }
+      },
+      "block_order": []
+    }
+  },
+  "order": [
+    "ec_hero",
+    "ec_categories",
+    "ec_tools_tabs",
+    "ec_station_bestsellers",
+    "ec_brands",
+    "ec_professional"
+  ]
+}
