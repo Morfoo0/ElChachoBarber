@@ -2,7 +2,7 @@
    EL CHACHO BARBER SUPPLY — "SUPPLY CULTURE"
    Global brand layer. Loaded after base.css so it can override defaults.
    Palette / typography come from theme settings (config/settings_data.json):
-   negro #0B0B0B · hueso #D6C9AD (fondo) · crema #F4EFE5 (texto claro) · rojo #990003 · titulares Anton.
+   negro #0B0B0B (fondo) · crema #F4EFE5 (texto) · rojo #990003 · titulares Anton.
    ========================================================================== */
 
 :root {
@@ -216,7 +216,7 @@ footer .footer-content .text-block h6 {
   letter-spacing: 0.14em;
   text-transform: uppercase;
   text-decoration: none;
-  color: var(--ec-ink);
+  color: var(--ec-cream);
   border-bottom: 1px solid var(--ec-red);
   padding-bottom: 0.25rem;
 }

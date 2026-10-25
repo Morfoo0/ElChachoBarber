@@ -19,6 +19,7 @@
 
   {%- liquid
     assign empty_message = section.settings.empty_message | default: 'Próximamente'
+    assign view_all_label = section.settings.view_all_label | default: 'Ver todo'
     assign tab_count = 0
     assign active_tab_index = 0
   -%}
@@ -172,7 +173,7 @@
           id="{{ tab_id }}"
           aria-controls="{{ panel_id }}"
           aria-selected="{% if is_active %}true{% else %}false{% endif %}"
-          tabindex="{% if is_active %}0{% else %}-1{% endif %}"
+          tabindex="0"
         >{{ label | escape }}</button>
       {% endcapture %}
 
@@ -181,12 +182,11 @@
           role="tabpanel"
           id="{{ panel_id }}"
           aria-labelledby="{{ tab_id }}"
-          aria-hidden="{% if is_active %}false{% else %}true{% endif %}"
         >
           {% if shown > 0 %}
             {{ items }}
             {% if view_all_link != blank %}
-              <a class="ec-tools-tabs__viewall" href="{{ view_all_link }}">Ver todo</a>
+              <a class="ec-tools-tabs__viewall" href="{{ view_all_link }}">{{ view_all_label | escape }}</a>
             {% endif %}
           {% else %}
             <p class="ec-tools-tabs__empty">{{ empty_message | escape }}</p>
@@ -220,8 +220,11 @@
     display: flex;
     gap: 1.75rem;
     overflow-x: auto;
-    border-bottom: 1px solid var(--ec-line, rgb(11 11 11 / 0.16));
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    border-bottom: 1px solid var(--ec-line-light);
     scrollbar-width: none;
+    -ms-overflow-style: none;
   }
 
   .ec-tools-tabs__bar::-webkit-scrollbar {
@@ -235,11 +238,12 @@
     border-bottom: 2px solid transparent;
     margin: 0 0 -1px;
     padding: 0.65rem 0;
+    scroll-snap-align: start;
     font-family: var(--font-subheading--family);
     font-size: 0.8rem;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: var(--ec-ink);
+    color: var(--ec-cream);
     cursor: pointer;
     white-space: nowrap;
   }
@@ -286,7 +290,7 @@
 
   .ec-tools-tabs__item {
     flex: 0 0 auto;
-    width: clamp(180px, 22vw, 240px);
+    width: 220px;
     scroll-snap-align: start;
   }
 
@@ -306,7 +310,7 @@
     letter-spacing: 0.14em;
     text-transform: uppercase;
     text-decoration: none;
-    color: var(--ec-ink);
+    color: var(--ec-cream);
     border-bottom: 1px solid var(--ec-red);
     padding-bottom: 0.25rem;
   }
@@ -324,21 +328,21 @@
     font-family: var(--font-subheading--family);
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    color: rgb(11 11 11 / 0.5);
+    color: rgb(244 239 229 / 0.55);
   }
 
   /* No-JS fallback: all panels visible. With JS, hide inactive panels. */
-  ec-tabs:not([enhanced]) [role='tabpanel'] {
-    display: block;
-  }
-
-  ec-tabs[enhanced] [role='tabpanel'][aria-hidden='true'] {
+  ec-tabs:defined [role='tabpanel'][aria-hidden='true'] {
     display: none;
   }
 
   @media screen and (max-width: 749px) {
     .ec-tools-tabs__item {
       width: min(78vw, 260px);
+    }
+
+    .ec-tools-tabs__row {
+      gap: 16px;
     }
   }
 {% endstylesheet %}
@@ -368,6 +372,12 @@
       "id": "empty_message",
       "label": "Texto cuando no hay productos",
       "default": "Próximamente"
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "Texto del enlace “Ver todo”",
+      "default": "Ver todo"
     },
     {
       "type": "header",
@@ -428,6 +438,7 @@
       "type": "range",
       "id": "tab_1_max",
       "label": "Máximo de productos",
+      "info": "Máximo por grupo cuando hay grupos; si no, total de la fila.",
       "min": 1,
       "max": 16,
       "step": 1,
@@ -464,6 +475,7 @@
       "type": "range",
       "id": "tab_2_max",
       "label": "Máximo de productos",
+      "info": "Máximo por grupo cuando hay grupos; si no, total de la fila.",
       "min": 1,
       "max": 16,
       "step": 1,
@@ -500,6 +512,7 @@
       "type": "range",
       "id": "tab_3_max",
       "label": "Máximo de productos",
+      "info": "Máximo por grupo cuando hay grupos; si no, total de la fila.",
       "min": 1,
       "max": 16,
       "step": 1,
@@ -536,6 +549,7 @@
       "type": "range",
       "id": "tab_4_max",
       "label": "Máximo de productos",
+      "info": "Máximo por grupo cuando hay grupos; si no, total de la fila.",
       "min": 1,
       "max": 16,
       "step": 1,
@@ -572,6 +586,7 @@
       "type": "range",
       "id": "tab_5_max",
       "label": "Máximo de productos",
+      "info": "Máximo por grupo cuando hay grupos; si no, total de la fila.",
       "min": 1,
       "max": 16,
       "step": 1,

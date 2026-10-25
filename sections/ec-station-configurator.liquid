@@ -1,0 +1,1240 @@
+{% comment %}
+  Configurador de pedido "Mi Estación".
+  Lee productos y variantes reales de Shopify, permite ajustar cantidades y
+  añade al carrito con la API AJAX del tema. La selección se guarda solo en
+  este navegador (localStorage); no se sincroniza con la cuenta del cliente.
+{% endcomment %}
+
+{%- liquid
+  assign restrict_handle = section.settings.page_handle | strip
+  assign render_section = true
+  if restrict_handle != blank and page != blank and page.handle != restrict_handle
+    assign render_section = false
+  endif
+-%}
+
+{% if render_section %}
+<script src="{{ 'ec-tabs.js' | asset_url }}" type="module" defer></script>
+<script src="{{ 'ec-station-configurator.js' | asset_url }}" type="module"></script>
+
+{%- liquid
+  assign dedupe_products = section.settings.dedupe_products
+  assign show_unavailable = section.settings.show_unavailable
+  assign empty_message = section.settings.empty_message | default: 'No hay productos en esta categoría.'
+  assign empty_config_message = section.settings.empty_config_message | default: 'Configura las colecciones del configurador.'
+  assign seen_ids = '|'
+  assign tab_count = 0
+  assign active_tab_index = 0
+-%}
+
+{% capture tabs_bar %}{% endcapture %}
+{% capture tabs_panels %}{% endcapture %}
+
+{% for i in (1..4) %}
+  {%- liquid
+    assign label_key = 'category_' | append: i | append: '_label'
+    assign handle_key = 'category_' | append: i | append: '_collection'
+    assign filter_key = 'category_' | append: i | append: '_filter'
+
+    assign category_label = section.settings[label_key] | strip
+    assign collection_handle = section.settings[handle_key] | strip
+    assign category_filter = section.settings[filter_key] | strip
+    assign collection = collections[collection_handle]
+    assign keywords = category_filter | downcase | split: ','
+    assign product_count = 0
+    assign category_has_available = false
+  -%}
+
+  {% if category_label != blank and collection != blank %}
+    {%- liquid
+      assign tab_count = tab_count | plus: 1
+      assign tab_id = 'ec-config-tab-' | append: section.id | append: '-' | append: tab_count
+      assign panel_id = 'ec-config-panel-' | append: section.id | append: '-' | append: tab_count
+    -%}
+
+    {% capture category_items %}
+      {% for product in collection.products %}
+        {%- liquid
+          assign pass = true
+          if category_filter != blank
+            assign pass = false
+            assign title_down = product.title | downcase
+            for keyword in keywords
+              assign keyword_strip = keyword | strip
+              if keyword_strip != blank and title_down contains keyword_strip
+                assign pass = true
+              endif
+            endfor
+          endif
+
+          assign product_token = '|' | append: product.id | append: '|'
+          if dedupe_products and seen_ids contains product_token
+            assign pass = false
+          endif
+
+          assign has_purchasable_variant = false
+          for variant in product.variants
+            if variant.available and variant.requires_selling_plan == false
+              assign has_purchasable_variant = true
+            endif
+          endfor
+
+          if show_unavailable == false and has_purchasable_variant == false
+            assign pass = false
+          endif
+        -%}
+
+        {% if pass %}
+          {%- liquid
+            assign seen_ids = seen_ids | append: product.id | append: '|'
+            assign product_count = product_count | plus: 1
+            if has_purchasable_variant
+              assign category_has_available = true
+            endif
+          -%}
+          <article class="ec-config__product">
+            <a
+              class="ec-config__thumb"
+              href="{{ product.url }}"
+              tabindex="-1"
+              aria-hidden="true"
+            >
+              {% if product.featured_image != blank %}
+                {{
+                  product.featured_image
+                  | image_url: width: 320
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '120, 180, 240, 320',
+                    sizes: '88px',
+                    class: 'ec-config__img',
+                    alt: product.title
+                }}
+              {% else %}
+                <span class="ec-config__thumb-fallback">{{ product.title | slice: 0, 1 }}</span>
+              {% endif %}
+            </a>
+
+            <div class="ec-config__product-main">
+              <h3 class="ec-config__product-title">
+                <a href="{{ product.url }}">{{ product.title | escape }}</a>
+              </h3>
+
+              <div class="ec-config__variant-list">
+                {% for variant in product.variants %}
+                  {%- liquid
+                    assign variant_available = variant.available
+                    assign requires_plan = variant.requires_selling_plan
+                    assign can_add = false
+                    if variant_available and requires_plan == false
+                      assign can_add = true
+                    endif
+                  -%}
+                  <div
+                    class="ec-config__variant{% unless variant_available %} ec-config__variant--soldout{% endunless %}"
+                    data-variant-id="{{ variant.id }}"
+                    data-price="{{ variant.price }}"
+                    data-available="{{ variant_available }}"
+                    data-requires-selling-plan="{{ requires_plan }}"
+                    data-product-title="{{ product.title | escape }}"
+                    data-variant-title="{{ variant.title | escape }}"
+                    data-product-url="{{ product.url }}"
+                  >
+                    <div class="ec-config__variant-meta">
+                      {% if product.variants.size > 1 %}
+                        <span class="ec-config__variant-title">{{ variant.title | escape }}</span>
+                      {% endif %}
+                      <span class="ec-config__price">
+                        {{ variant.price | money }}
+                        {% if variant.compare_at_price and variant.compare_at_price > variant.price %}
+                          <s class="ec-config__compare">{{ variant.compare_at_price | money }}</s>
+                        {% endif %}
+                      </span>
+                    </div>
+
+                    <div class="ec-config__qty">
+                      <label
+                        class="visually-hidden"
+                        for="ec-config-qty-{{ section.id }}-{{ variant.id }}"
+                      >
+                        Cantidad para {{ product.title | escape }}{% if product.variants.size > 1 %} {{ variant.title | escape }}{% endif %}
+                      </label>
+                      <input
+                        id="ec-config-qty-{{ section.id }}-{{ variant.id }}"
+                        type="number"
+                        inputmode="numeric"
+                        min="0"
+                        max="99"
+                        step="1"
+                        value="0"
+                        data-qty
+                        {% unless can_add %}disabled{% endunless %}
+                      >
+                      {% unless variant_available %}
+                        <span class="ec-config__soldout">Agotado</span>
+                      {% endunless %}
+                      {% if requires_plan %}
+                        <span class="ec-config__soldout">Requiere plan</span>
+                      {% endif %}
+                    </div>
+                  </div>
+                {% endfor %}
+              </div>
+            </div>
+          </article>
+        {% endif %}
+      {% endfor %}
+    {% endcapture %}
+
+    {%- liquid
+      if product_count > 0 and active_tab_index == 0
+        assign active_tab_index = tab_count
+      endif
+      assign is_active = false
+      if tab_count == active_tab_index
+        assign is_active = true
+      endif
+    -%}
+
+    {% capture tabs_bar %}{{ tabs_bar }}
+      <button
+        type="button"
+        role="tab"
+        id="{{ tab_id }}"
+        aria-controls="{{ panel_id }}"
+        aria-selected="{% if is_active %}true{% else %}false{% endif %}"
+        tabindex="0"
+        data-has-available="{% if category_has_available %}true{% else %}false{% endif %}"
+      >
+        <span>{{ category_label | escape }}</span>
+        <span class="ec-config__tab-count">{{ product_count }}</span>
+      </button>
+    {% endcapture %}
+
+    {% capture tabs_panels %}{{ tabs_panels }}
+      <div
+        role="tabpanel"
+        id="{{ panel_id }}"
+        aria-labelledby="{{ tab_id }}"
+      >
+        {% if product_count > 0 %}
+          <div class="ec-config__products">{{ category_items }}</div>
+        {% else %}
+          <p class="ec-config__category-empty">{{ empty_message | escape }}</p>
+        {% endif %}
+      </div>
+    {% endcapture %}
+  {% endif %}
+{% endfor %}
+
+<ec-station-configurator
+  class="ec-config section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  data-money-format="{{ shop.money_format | escape }}"
+  data-currency="{{ cart.currency.iso_code }}"
+  data-storage-key="ec-station:v1"
+  data-add-label="{{ section.settings.add_label | escape }}"
+  data-loading-label="{{ section.settings.loading_label | escape }}"
+  data-success-message="{{ section.settings.success_message | escape }}"
+  data-error-message="{{ section.settings.error_message | escape }}"
+  data-restored-message="{{ section.settings.restored_message | escape }}"
+  data-unavailable-message="{{ section.settings.unavailable_message | escape }}"
+  {{ section.shopify_attributes }}
+>
+  <div class="ec-config__inner">
+    <header class="ec-config__head">
+      {% if section.settings.eyebrow != blank %}
+        <p class="ec-eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+      {% if section.settings.title != blank %}
+        <h1 class="ec-config__title">{{ section.settings.title | escape }}</h1>
+      {% endif %}
+      {% if section.settings.intro != blank %}
+        <p class="ec-config__intro">{{ section.settings.intro | escape }}</p>
+      {% endif %}
+    </header>
+
+    <div class="ec-config__layout">
+      <div class="ec-config__catalog">
+        {% if tab_count > 0 %}
+          <ec-tabs class="ec-config__tabs" data-prefer-available>
+            <div class="ec-config__tablist" role="tablist">{{ tabs_bar }}</div>
+            <div class="ec-config__panels">{{ tabs_panels }}</div>
+          </ec-tabs>
+        {% else %}
+          <p class="ec-config__empty-config">{{ empty_config_message | escape }}</p>
+        {% endif %}
+      </div>
+
+      <aside class="ec-config__summary" aria-labelledby="ec-config-summary-{{ section.id }}">
+        <div class="ec-config__summary-card">
+          <div class="ec-config__summary-head">
+            <h2 id="ec-config-summary-{{ section.id }}" class="ec-config__summary-title">
+              {{ section.settings.summary_title | escape }}
+            </h2>
+            <span class="ec-config__badge" data-count aria-live="polite">0</span>
+          </div>
+
+          <p class="ec-config__empty" data-empty>{{ section.settings.empty_summary | escape }}</p>
+          <ul class="ec-config__selected" data-selected></ul>
+
+          <div class="ec-config__totals" aria-live="polite">
+            <span>Subtotal estimado</span>
+            <span data-subtotal>{{ 0 | money }}</span>
+          </div>
+          <p class="ec-config__tax-note">{{ section.settings.tax_note | escape }}</p>
+
+          <div class="ec-config__actions">
+            <button type="button" class="ec-config__add" data-add disabled>
+              <span data-add-label>{{ section.settings.add_label | escape }}</span>
+            </button>
+            <a class="ec-config__view-cart" href="{{ routes.cart_url }}">
+              {{ section.settings.view_cart_label | escape }}
+            </a>
+          </div>
+
+          <button type="button" class="ec-config__clear" data-clear hidden>
+            {{ section.settings.clear_label | escape }}
+          </button>
+
+          <p class="ec-config__storage">{{ section.settings.storage_notice | escape }}</p>
+          <p class="ec-config__status" data-status role="status" aria-live="polite"></p>
+          <p class="ec-config__error" data-error role="alert" hidden></p>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="ec-config__bar" data-bar hidden>
+    <div class="ec-config__bar-info">
+      <span class="ec-config__bar-count" data-bar-count>0</span>
+      <span class="ec-config__bar-subtotal" data-bar-subtotal>{{ 0 | money }}</span>
+    </div>
+    <button type="button" class="ec-config__add ec-config__add--bar" data-add disabled>
+      <span data-add-label>{{ section.settings.add_label | escape }}</span>
+    </button>
+  </div>
+</ec-station-configurator>
+{% endif %}
+
+{% stylesheet %}
+  main:has(.ec-config) > .shopify-section:not(:has(.ec-config)) {
+    display: none;
+  }
+
+  .ec-config {
+    color: var(--ec-cream);
+  }
+
+  .ec-config__inner {
+    display: flex;
+    flex-direction: column;
+    gap: clamp(2rem, 4vw, 3.5rem);
+  }
+
+  .ec-config__head {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 62rem;
+  }
+
+  .ec-config__title {
+    margin: 0;
+    font-family: var(--ec-display, var(--font-heading--family));
+    font-size: clamp(2.75rem, 7vw, 6rem);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+  }
+
+  .ec-config__intro {
+    margin: 0;
+    max-width: 56ch;
+    color: rgb(244 239 229 / 0.72);
+    font-size: 1.05rem;
+    line-height: 1.6;
+  }
+
+  .ec-config__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2.5rem;
+    align-items: start;
+  }
+
+  .ec-config__catalog {
+    min-width: 0;
+  }
+
+  .ec-config__tablist {
+    display: flex;
+    gap: 1.5rem;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    border-bottom: 1px solid var(--ec-line-light);
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .ec-config__tablist::-webkit-scrollbar {
+    display: none;
+  }
+
+  .ec-config__tablist [role='tab'] {
+    appearance: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin: 0 0 -1px;
+    padding: 0.7rem 0;
+    scroll-snap-align: start;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ec-cream);
+    white-space: nowrap;
+    cursor: pointer;
+  }
+
+  .ec-config__tablist [role='tab']:hover,
+  .ec-config__tablist [role='tab'][aria-selected='true'] {
+    color: var(--ec-red);
+  }
+
+  .ec-config__tablist [role='tab'][aria-selected='true'] {
+    border-bottom-color: var(--ec-red);
+  }
+
+  .ec-config__tablist [role='tab']:focus-visible {
+    outline: 2px solid var(--ec-red);
+    outline-offset: 4px;
+  }
+
+  .ec-config__tab-count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.4rem;
+    height: 1.4rem;
+    padding: 0 0.35rem;
+    border: 1px solid currentColor;
+    font-size: 0.65rem;
+    letter-spacing: 0.04em;
+  }
+
+  .ec-config__panels {
+    margin-top: 1.5rem;
+  }
+
+  ec-tabs:defined [role='tabpanel'][aria-hidden='true'] {
+    display: none;
+  }
+
+  .ec-config__products {
+    border-top: 1px solid var(--ec-line-light);
+  }
+
+  .ec-config__product {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+    gap: 1.25rem;
+    padding-block: 1.5rem;
+    border-bottom: 1px solid var(--ec-line-light);
+  }
+
+  .ec-config__thumb {
+    display: block;
+    width: 88px;
+    aspect-ratio: 1 / 1;
+    overflow: hidden;
+    background: #161616;
+    border: 1px solid var(--ec-line-light);
+  }
+
+  .ec-config__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .ec-config__thumb-fallback {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    height: 100%;
+    font-family: var(--ec-display, var(--font-heading--family));
+    font-size: 2rem;
+    color: rgb(244 239 229 / 0.25);
+  }
+
+  .ec-config__product-main {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+
+  .ec-config__product-title {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 1rem;
+    font-weight: 500;
+    line-height: 1.35;
+    letter-spacing: 0;
+  }
+
+  .ec-config__product-title a {
+    color: var(--ec-cream);
+    text-decoration: none;
+  }
+
+  .ec-config__product-title a:hover {
+    color: var(--ec-red);
+  }
+
+  .ec-config__variant-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .ec-config__variant {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 0.4rem;
+    border-top: 1px solid rgb(244 239 229 / 0.1);
+  }
+
+  .ec-config__variant:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .ec-config__variant--soldout {
+    opacity: 0.55;
+  }
+
+  .ec-config__variant-meta {
+    display: flex;
+    align-items: baseline;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+
+  .ec-config__variant-title {
+    font-family: var(--font-subheading--family);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgb(244 239 229 / 0.6);
+  }
+
+  .ec-config__price {
+    font-size: 0.92rem;
+    color: var(--ec-cream);
+  }
+
+  .ec-config__compare {
+    margin-left: 0.35rem;
+    color: rgb(244 239 229 / 0.5);
+  }
+
+  .ec-config__qty {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex: 0 0 auto;
+  }
+
+  .ec-config__qty input {
+    width: 4.25rem;
+    min-height: 2.4rem;
+    padding: 0.3rem 0.4rem;
+    background: transparent;
+    border: 1px solid rgb(244 239 229 / 0.3);
+    border-radius: 0;
+    color: var(--ec-cream);
+    font-family: var(--font-body--family);
+    font-size: 0.9rem;
+    text-align: center;
+  }
+
+  .ec-config__qty input:focus-visible {
+    outline: 2px solid var(--ec-red);
+    outline-offset: 2px;
+  }
+
+  .ec-config__qty input:disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+  }
+
+  .ec-config__soldout {
+    font-family: var(--font-subheading--family);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: rgb(244 239 229 / 0.55);
+  }
+
+  .ec-config__category-empty,
+  .ec-config__empty-config {
+    margin: 2rem 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: rgb(244 239 229 / 0.55);
+  }
+
+  .ec-config__summary {
+    min-width: 0;
+  }
+
+  .ec-config__summary-card {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    padding: clamp(1.25rem, 3vw, 1.75rem);
+    background: #d6c9ad;
+    color: var(--ec-ink);
+    border-radius: 20px;
+  }
+
+  .ec-config__summary-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .ec-config__summary-title {
+    margin: 0;
+    font-family: var(--ec-display, var(--font-heading--family));
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .ec-config__badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 1.8rem;
+    height: 1.8rem;
+    padding: 0 0.4rem;
+    background: var(--ec-red);
+    color: var(--ec-cream);
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    font-weight: 600;
+  }
+
+  .ec-config__empty {
+    margin: 0;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    opacity: 0.7;
+  }
+
+  .ec-config__selected {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .ec-config__line {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    gap: 0.65rem;
+    align-items: center;
+    padding-top: 0.75rem;
+    border-top: 1px solid rgb(11 11 11 / 0.18);
+  }
+
+  .ec-config__line:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+
+  .ec-config__line-info {
+    min-width: 0;
+  }
+
+  .ec-config__line-title {
+    margin: 0;
+    font-family: var(--font-body--family);
+    font-size: 0.86rem;
+    font-weight: 500;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+  }
+
+  .ec-config__line-variant {
+    margin: 0.2rem 0 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.6;
+  }
+
+  .ec-config__line-price {
+    margin: 0.25rem 0 0;
+    font-size: 0.82rem;
+    opacity: 0.8;
+  }
+
+  .ec-config__line-qty {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+  }
+
+  .ec-config__step {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid rgb(11 11 11 / 0.35);
+    border-radius: 0;
+    color: var(--ec-ink);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+  }
+
+  .ec-config__step:hover {
+    background: var(--ec-ink);
+    color: var(--ec-cream);
+  }
+
+  .ec-config__step:focus-visible,
+  .ec-config__remove:focus-visible,
+  .ec-config__add:focus-visible,
+  .ec-config__clear:focus-visible,
+  .ec-config__view-cart:focus-visible {
+    outline: 2px solid var(--ec-red);
+    outline-offset: 2px;
+  }
+
+  .ec-config__line-qty-value {
+    min-width: 1.2rem;
+    text-align: center;
+    font-size: 0.85rem;
+  }
+
+  .ec-config__remove {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.7rem;
+    height: 1.7rem;
+    padding: 0;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 0;
+    color: var(--ec-ink);
+    font-size: 1rem;
+    line-height: 1;
+    cursor: pointer;
+    opacity: 0.55;
+  }
+
+  .ec-config__remove:hover {
+    opacity: 1;
+    color: var(--ec-red);
+  }
+
+  .ec-config__totals {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgb(11 11 11 / 0.25);
+    font-family: var(--font-subheading--family);
+    font-size: 0.82rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  .ec-config__totals [data-subtotal] {
+    font-size: 1rem;
+    letter-spacing: 0;
+  }
+
+  .ec-config__tax-note,
+  .ec-config__storage {
+    margin: 0;
+    font-size: 0.72rem;
+    line-height: 1.45;
+    opacity: 0.62;
+  }
+
+  .ec-config__actions {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  .ec-config__add {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.85rem 1.25rem;
+    background: var(--ec-ink);
+    color: var(--ec-cream);
+    border: 1px solid var(--ec-ink);
+    border-radius: 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.76rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition:
+      background-color 0.3s var(--animation-easing),
+      border-color 0.3s var(--animation-easing);
+  }
+
+  .ec-config__add:hover:not(:disabled) {
+    background: var(--ec-red);
+    border-color: var(--ec-red);
+  }
+
+  .ec-config__add:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+
+  .ec-config__view-cart {
+    font-family: var(--font-subheading--family);
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    text-align: center;
+    color: var(--ec-ink);
+    border-bottom: 1px solid currentColor;
+    padding-bottom: 0.15rem;
+  }
+
+  .ec-config__view-cart:hover {
+    color: var(--ec-red);
+  }
+
+  .ec-config__clear {
+    align-self: flex-start;
+    padding: 0;
+    background: none;
+    border: none;
+    border-bottom: 1px solid currentColor;
+    color: var(--ec-ink);
+    font-family: var(--font-subheading--family);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    opacity: 0.65;
+  }
+
+  .ec-config__clear:hover {
+    opacity: 1;
+    color: var(--ec-red);
+  }
+
+  .ec-config__status,
+  .ec-config__error {
+    margin: 0;
+    font-size: 0.78rem;
+    line-height: 1.45;
+  }
+
+  .ec-config__error {
+    color: var(--ec-red);
+    font-weight: 500;
+  }
+
+  .ec-config__status:empty,
+  .ec-config__error:empty {
+    display: none;
+  }
+
+  .ec-config__bar {
+    position: fixed;
+    inset-inline: 0;
+    bottom: 0;
+    z-index: 20;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.85rem var(--page-margin, 1rem);
+    background: #d6c9ad;
+    color: var(--ec-ink);
+    border-top: 1px solid rgb(11 11 11 / 0.2);
+  }
+
+  .ec-config__bar[hidden] {
+    display: none;
+  }
+
+  .ec-config__bar-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    font-family: var(--font-subheading--family);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-size: 0.68rem;
+  }
+
+  .ec-config__bar-count {
+    color: var(--ec-red);
+    font-weight: 600;
+  }
+
+  .ec-config__bar-subtotal {
+    font-size: 0.95rem;
+    letter-spacing: 0;
+    text-transform: none;
+  }
+
+  .ec-config__add--bar {
+    width: auto;
+    min-width: 10rem;
+    margin-left: auto;
+  }
+
+  @media screen and (max-width: 989px) {
+    .ec-config {
+      padding-bottom: 5.5rem;
+    }
+
+    .ec-config__summary {
+      order: 2;
+    }
+  }
+
+  @media screen and (min-width: 990px) {
+    .ec-config__layout {
+      grid-template-columns: minmax(0, 7fr) minmax(19rem, 4fr);
+      gap: clamp(2.5rem, 4vw, 4rem);
+    }
+
+    .ec-config__summary-card {
+      position: sticky;
+      top: calc(var(--header-group-height, 0px) + 1.5rem);
+    }
+
+    .ec-config__bar {
+      display: none;
+    }
+  }
+
+  @media screen and (max-width: 749px) {
+    .ec-config__product {
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 1rem;
+    }
+
+    .ec-config__thumb {
+      width: 72px;
+    }
+
+    .ec-config__variant {
+      flex-wrap: wrap;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ec-config__add {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Configurador estación",
+  "tag": "section",
+  "class": "ec-station-configurator-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Configurador de pedido"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Mi Estación"
+    },
+    {
+      "type": "textarea",
+      "id": "intro",
+      "label": "Texto introductorio",
+      "default": "Selecciona tus esenciales, ajusta cantidades y añade todo a tu carrito desde un solo lugar."
+    },
+    {
+      "type": "header",
+      "content": "Categoría 1"
+    },
+    {
+      "type": "text",
+      "id": "category_1_label",
+      "label": "Etiqueta",
+      "default": "Herramientas"
+    },
+    {
+      "type": "text",
+      "id": "category_1_collection",
+      "label": "Colección (handle)",
+      "default": "herramientas"
+    },
+    {
+      "type": "text",
+      "id": "category_1_filter",
+      "label": "Filtro por título (opcional)"
+    },
+    {
+      "type": "header",
+      "content": "Categoría 2"
+    },
+    {
+      "type": "text",
+      "id": "category_2_label",
+      "label": "Etiqueta",
+      "default": "Cuidados"
+    },
+    {
+      "type": "text",
+      "id": "category_2_collection",
+      "label": "Colección (handle)",
+      "default": "insumos"
+    },
+    {
+      "type": "text",
+      "id": "category_2_filter",
+      "label": "Filtro por título (opcional)",
+      "info": "Palabras separadas por coma. Se compara con el título del producto.",
+      "default": "wax,gel,cologne,splash,exfoliante,powder,aceite,enfriador,talco"
+    },
+    {
+      "type": "header",
+      "content": "Categoría 3"
+    },
+    {
+      "type": "text",
+      "id": "category_3_label",
+      "label": "Etiqueta",
+      "default": "Accesorios"
+    },
+    {
+      "type": "text",
+      "id": "category_3_collection",
+      "label": "Colección (handle)",
+      "default": "insumos"
+    },
+    {
+      "type": "text",
+      "id": "category_3_filter",
+      "label": "Filtro por título (opcional)",
+      "default": "guante"
+    },
+    {
+      "type": "header",
+      "content": "Categoría 4"
+    },
+    {
+      "type": "text",
+      "id": "category_4_label",
+      "label": "Etiqueta",
+      "default": "Consumibles"
+    },
+    {
+      "type": "text",
+      "id": "category_4_collection",
+      "label": "Colección (handle)",
+      "default": "insumos"
+    },
+    {
+      "type": "text",
+      "id": "category_4_filter",
+      "label": "Filtro por título (opcional)",
+      "default": "navaja,cuchilla,cuello,papel"
+    },
+    {
+      "type": "checkbox",
+      "id": "dedupe_products",
+      "label": "Evitar productos duplicados entre categorías",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_unavailable",
+      "label": "Mostrar productos agotados",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "page_handle",
+      "label": "Mostrar solo en la página (handle)",
+      "info": "Opcional. Si se indica, el configurador solo se renderiza cuando el handle de la página coincide. Se usa en la plantilla de página por defecto como respaldo."
+    },
+    {
+      "type": "header",
+      "content": "Resumen y textos"
+    },
+    {
+      "type": "text",
+      "id": "summary_title",
+      "label": "Título del resumen",
+      "default": "Tu estación"
+    },
+    {
+      "type": "text",
+      "id": "add_label",
+      "label": "Botón añadir",
+      "default": "Añadir al carrito"
+    },
+    {
+      "type": "text",
+      "id": "loading_label",
+      "label": "Texto mientras se añade",
+      "default": "Añadiendo…"
+    },
+    {
+      "type": "text",
+      "id": "view_cart_label",
+      "label": "Enlace ver carrito",
+      "default": "Ver carrito"
+    },
+    {
+      "type": "text",
+      "id": "clear_label",
+      "label": "Botón limpiar selección",
+      "default": "Limpiar selección"
+    },
+    {
+      "type": "text",
+      "id": "empty_summary",
+      "label": "Resumen vacío",
+      "default": "Aún no has añadido productos."
+    },
+    {
+      "type": "text",
+      "id": "empty_message",
+      "label": "Categoría vacía",
+      "default": "No hay productos en esta categoría."
+    },
+    {
+      "type": "text",
+      "id": "empty_config_message",
+      "label": "Configuración vacía",
+      "default": "Configura las colecciones del configurador."
+    },
+    {
+      "type": "text",
+      "id": "success_message",
+      "label": "Mensaje de éxito",
+      "default": "Productos añadidos al carrito."
+    },
+    {
+      "type": "text",
+      "id": "error_message",
+      "label": "Mensaje de error",
+      "default": "No pudimos añadir los productos. Intenta de nuevo."
+    },
+    {
+      "type": "text",
+      "id": "restored_message",
+      "label": "Mensaje de selección restaurada",
+      "default": "Recuperamos tu selección guardada en este navegador."
+    },
+    {
+      "type": "text",
+      "id": "unavailable_message",
+      "label": "Mensaje de productos no disponibles",
+      "default": "Algunos productos de tu selección ya no están disponibles."
+    },
+    {
+      "type": "text",
+      "id": "tax_note",
+      "label": "Nota de impuestos y envío",
+      "default": "Impuestos y envío se calculan en el checkout."
+    },
+    {
+      "type": "text",
+      "id": "storage_notice",
+      "label": "Aviso de guardado",
+      "default": "Tu selección se guarda en este navegador. No se sincroniza con tu cuenta."
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Relleno superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Relleno inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 96
+    }
+  ],
+  "presets": [
+    {
+      "name": "Configurador estación",
+      "category": "El Chacho"
+    }
+  ]
+}
+{% endschema %}

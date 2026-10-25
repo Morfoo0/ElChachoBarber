@@ -9,15 +9,33 @@ class EcTabs extends HTMLElement {
     this.tabs = Array.from(this.querySelectorAll('[role="tab"]'));
     this.panels = Array.from(this.querySelectorAll('[role="tabpanel"]'));
 
-    this.setAttribute('enhanced', '');
+    this.handlers = this.tabs.map((tab, index) => {
+      const onClick = () => this.select(index);
+      const onKeydown = (event) => this.#onKeydown(event, index);
 
-    this.tabs.forEach((tab, index) => {
-      tab.addEventListener('click', () => this.select(index));
-      tab.addEventListener('keydown', (event) => this.#onKeydown(event, index));
+      tab.addEventListener('click', onClick);
+      tab.addEventListener('keydown', onKeydown);
+
+      return { tab, onClick, onKeydown };
     });
 
-    const initial = this.tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true');
+    let initial = this.tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true');
+
+    if (this.hasAttribute('data-prefer-available')) {
+      const preferred = this.tabs.findIndex((tab) => tab.dataset.hasAvailable === 'true');
+      if (preferred >= 0) initial = preferred;
+    }
+
     this.select(initial >= 0 ? initial : 0);
+  }
+
+  disconnectedCallback() {
+    (this.handlers ?? []).forEach(({ tab, onClick, onKeydown }) => {
+      tab.removeEventListener('click', onClick);
+      tab.removeEventListener('keydown', onKeydown);
+    });
+
+    this.handlers = [];
   }
 
   select(index) {

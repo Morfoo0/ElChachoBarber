@@ -299,7 +299,7 @@
           "settings": {
             "collection": "herramientas",
             "title": "Máquinas",
-            "image": ""
+            "image": "shopify://shop_images/Maquina1.jpg"
           }
         },
         "cat_2": {
@@ -307,7 +307,7 @@
           "settings": {
             "collection": "navajas",
             "title": "Cuchillas",
-            "image": ""
+            "image": "shopify://shop_images/Cuchillas1.jpg"
           }
         },
         "cat_3": {
@@ -315,7 +315,7 @@
           "settings": {
             "collection": "insumos",
             "title": "Cuidado",
-            "image": ""
+            "image": "shopify://shop_images/cuidadoh.png"
           }
         },
         "cat_4": {
@@ -323,7 +323,7 @@
           "settings": {
             "collection": "guantes",
             "title": "Accesorios",
-            "image": ""
+            "image": "shopify://shop_images/Accesorios1.jpg"
           }
         }
       },
@@ -382,6 +382,20 @@
         "brand_3",
         "brand_4"
       ]
+    },
+    "ec_editorial_image": {
+      "type": "ec-editorial-image",
+      "settings": {
+        "image": "shopify://shop_images/Corteh.jpg",
+        "image_mobile": "",
+        "alt": "Corte de cabello — El Chacho",
+        "link": "",
+        "section_width": "full-width",
+        "aspect_ratio": "21 / 9",
+        "aspect_ratio_mobile": "4 / 5",
+        "padding-block-start": 0,
+        "padding-block-end": 0
+      }
     },
     "ec_professional": {
       "type": "ec-professional",
@@ -517,120 +531,32 @@
       },
       "block_order": []
     },
-    "ec_station_bestsellers": {
-      "type": "ec-station-bestsellers",
+    "ec_station_card": {
+      "type": "ec-station-card",
       "settings": {
-        "eyebrow": "Lo más vendido",
-        "title": "Mi Estación",
-        "intro": "Los productos que más se venden en El Chacho. Las herramientas y consumibles que los barberos eligen todos los días.",
-        "collection": "insumos",
-        "max_products": 8,
-        "view_all_label": "Ver todos",
-        "view_all_link": "",
-        "route_1_label": "Reabastecer",
-        "route_1_link": "shopify://collections/insumos",
-        "route_2_label": "Mejorar el equipo",
-        "route_2_link": "shopify://collections/herramientas",
-        "route_3_label": "Equipar una estación",
-        "route_3_link": "shopify://collections/promociones-y-paquetes",
-        "route_4_label": "Comprar por volumen",
-        "route_4_link": "shopify://collections/promociones-y-paquetes",
+        "eyebrow": "Una herramienta para tu negocio",
+        "title": "Tu estación. Tus reglas.",
+        "description": "Organiza tus esenciales y prepara tu siguiente pedido desde un solo lugar.",
+        "name": "Mi Estación",
+        "secondary_text": "Crea tu lista de equipamiento y reposición.",
+        "cta_label": "Configurar mi estación",
+        "cta_link": "shopify://pages/mi-estacion",
+        "background_color": "#D6C9AD",
+        "text_color": "#0B0B0B",
+        "corner_radius": 24,
         "section_width": "page-width",
-        "padding-block-start": 96,
-        "padding-block-end": 96
-      },
-      "blocks": {
-        "static-product-card": {
-          "type": "_product-card",
-          "name": "Producto",
-          "static": true,
-          "settings": {
-            "product_card_gap": 8,
-            "background_color": "",
-            "border": "none",
-            "border_width": 1,
-            "border_opacity": 100,
-            "border_radius": 0,
-            "padding-block-start": 0,
-            "padding-block-end": 0,
-            "padding-inline-start": 0,
-            "padding-inline-end": 0
-          },
-          "blocks": {
-            "product-card-gallery": {
-              "type": "_product-card-gallery",
-              "settings": {
-                "image_ratio": "portrait",
-                "border": "none",
-                "border_width": 1,
-                "border_opacity": 100,
-                "border_radius": 0,
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            },
-            "product_title": {
-              "type": "product-title",
-              "settings": {
-                "width": "100%",
-                "max_width": "normal",
-                "alignment": "left",
-                "type_preset": "paragraph",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "wrap": "pretty",
-                "background": false,
-                "background_color": "#00000026",
-                "corner_radius": 0,
-                "padding-block-start": 8,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            },
-            "price": {
-              "type": "price",
-              "settings": {
-                "show_sale_price_first": true,
-                "show_installments": false,
-                "show_tax_info": false,
-                "type_preset": "h6",
-                "width": "100%",
-                "alignment": "left",
-                "font": "var(--font-body--family)",
-                "font_size": "1rem",
-                "line_height": "normal",
-                "letter_spacing": "normal",
-                "case": "none",
-                "text_color": "",
-                "padding-block-start": 0,
-                "padding-block-end": 0,
-                "padding-inline-start": 0,
-                "padding-inline-end": 0
-              }
-            }
-          },
-          "block_order": [
-            "product-card-gallery",
-            "product_title",
-            "price"
-          ]
-        }
-      },
-      "block_order": []
+        "padding-block-start": 72,
+        "padding-block-end": 72
+      }
     }
   },
   "order": [
     "ec_hero",
     "ec_categories",
     "ec_tools_tabs",
-    "ec_station_bestsellers",
+    "ec_station_card",
     "ec_brands",
+    "ec_editorial_image",
     "ec_professional"
   ]
 }

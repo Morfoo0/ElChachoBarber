@@ -444,3 +444,20 @@ No des por terminado el trabajo solo porque la página compile. La fidelidad vis
 ### INSTRUCCIÓN FINAL
 
 **El diseño ya está aprobado. No solicito propuestas alternativas. Implementa la versión aprobada de El Chacho Barber Supply conservando estructura, paleta, tipografía, fotografías, textos, botones, secciones, jerarquías visuales e interacciones. No elimines, sustituyas ni simplifiques ningún elemento aprobado sin una razón técnica real. Si falta un recurso o existe una decisión que no puede deducirse del proyecto, documéntalo en lugar de inventarlo.**
+
+---
+
+### MI ESTACIÓN — IMPLEMENTACIÓN DEL CONFIGURADOR
+
+La sección "Mi Estación" del home ahora es una tarjeta de entrada al configurador `/pages/mi-estacion`; ya no muestra productos ni las rutas de compra anteriores.
+
+Dependencias y decisiones:
+
+- La página debe existir en Admin con handle `mi-estacion`. `templates/page.json` renderiza el configurador solo para ese handle como respaldo, de modo que la URL limpia funciona sin pasos adicionales.
+- La plantilla `mi-estacion` (`templates/page.mi-estacion.json`) queda disponible para asignarla desde Admin y evitar el HTML oculto del template de página por defecto.
+- Categorías del configurador: Herramientas (`herramientas`); Cuidados, Accesorios y Consumibles usan `insumos` con filtros por título. Los filtros y handles son editables en el personalizador; si se crean colecciones limpias, se puede vaciar el filtro y usar su handle.
+- La selección se guarda en `localStorage` (`ec-station:v1`). No se sincroniza con la cuenta del cliente ni persiste entre dispositivos.
+- El carrito se gestiona con `/cart/add.js` y el drawer nativo del tema. No se modifica checkout ni pagos.
+- Herramientas seguirá mostrando productos agotados hasta actualizar stock y precio en Shopify.
+- No hay un producto multivariante disponible para probar el add real de variantes (los guantes S/M/L/XL están agotados). La interfaz de variantes se valida, pero la prueba de compra con variante requiere stock.
+- Para persistencia en cuenta haría falta una app o metafields de cliente; no se implementó en esta versión.

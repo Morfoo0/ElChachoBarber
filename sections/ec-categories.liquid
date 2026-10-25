@@ -42,6 +42,10 @@
                   class: 'ec-cat__img',
                   alt: img.alt | default: title
               }}
+            {% else %}
+              <div class="ec-cat__fallback" aria-hidden="true">
+                <span class="ec-cat__fallback-mark">{{ forloop.index | prepend: '0' }}</span>
+              </div>
             {% endif %}
           </div>
           <div class="ec-cat__overlay">
@@ -92,6 +96,25 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.6s var(--animation-easing);
+  }
+
+  .ec-cat__fallback {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(120% 120% at 15% 0%, rgb(153 0 3 / 0.28) 0%, transparent 55%),
+      linear-gradient(135deg, #161616 0%, #0b0b0b 60%, #1a0a0a 100%);
+  }
+
+  .ec-cat__fallback-mark {
+    font-family: var(--ec-display);
+    font-size: clamp(5rem, 12vw, 9rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+    color: rgb(244 239 229 / 0.08);
+    user-select: none;
   }
 
   .ec-cat__overlay {

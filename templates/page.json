@@ -52,9 +52,16 @@
         "padding-block-start": 40,
         "padding-block-end": 80
       }
+    },
+    "configurator": {
+      "type": "ec-station-configurator",
+      "settings": {
+        "page_handle": "mi-estacion"
+      }
     }
   },
   "order": [
-    "main"
+    "main",
+    "configurator"
   ]
 }

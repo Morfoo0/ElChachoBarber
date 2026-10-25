@@ -1,0 +1,329 @@
+{% comment %}
+  Tarjeta de entrada al configurador "Mi Estación".
+  No muestra productos ni añade al carrito: solo presenta la herramienta y
+  enlaza a la página del configurador.
+{% endcomment %}
+
+{%- liquid
+  assign card_bg = section.settings.background_color | default: '#D6C9AD'
+  assign card_fg = section.settings.text_color | default: '#0B0B0B'
+  assign card_radius = section.settings.corner_radius | default: 24
+  assign cta_link = section.settings.cta_link | default: '/pages/mi-estacion'-%}
+
+<div
+  class="ec-station-card section section--{{ section.settings.section_width }} spacing-style"
+  style="{% render 'spacing-padding', settings: section.settings %}"
+  {{ section.shopify_attributes }}
+>
+  <div
+    class="ec-station-card__panel"
+    style="
+      --ec-card-bg: {{ card_bg }};
+      --ec-card-fg: {{ card_fg }};
+      --ec-card-radius: {{ card_radius }}px;
+      --ec-card-line: color-mix(in srgb, {{ card_fg }} 22%, transparent);
+    "
+  >
+    <div class="ec-station-card__copy">
+      {% if section.settings.eyebrow != blank %}
+        <p class="ec-station-card__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {% endif %}
+
+      {% if section.settings.title != blank %}
+        <h2 class="ec-station-card__title">{{ section.settings.title | escape }}</h2>
+      {% endif %}
+
+      {% if section.settings.description != blank %}
+        <p class="ec-station-card__desc">{{ section.settings.description | escape }}</p>
+      {% endif %}
+    </div>
+
+    <div class="ec-station-card__aside">
+      {% if section.settings.name != blank %}
+        <p class="ec-station-card__name">{{ section.settings.name | escape }}</p>
+      {% endif %}
+
+      {% if section.settings.secondary_text != blank %}
+        <p class="ec-station-card__secondary">{{ section.settings.secondary_text | escape }}</p>
+      {% endif %}
+
+      {% if section.settings.cta_label != blank %}
+        <a class="ec-station-card__cta" href="{{ cta_link }}">
+          <span>{{ section.settings.cta_label | escape }}</span>
+          <span class="ec-station-card__arrow" aria-hidden="true">&#8599;</span>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% stylesheet %}
+  .ec-station-card {
+    --ec-card-transition: 0.35s var(--animation-easing);
+  }
+
+  .ec-station-card__panel {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: clamp(2rem, 5vw, 4rem);
+    padding: clamp(1.75rem, 5vw, 4.5rem);
+    background: var(--ec-card-bg);
+    color: var(--ec-card-fg);
+    border-radius: var(--ec-card-radius);
+    overflow: hidden;
+  }
+
+  .ec-station-card__copy {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .ec-station-card__eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--ec-red);
+  }
+
+  .ec-station-card__eyebrow::before {
+    content: '';
+    width: 1.75rem;
+    height: 2px;
+    flex: 0 0 auto;
+    background: currentColor;
+  }
+
+  .ec-station-card__title {
+    margin: 0;
+    font-family: var(--ec-display, var(--font-heading--family));
+    font-size: clamp(2.5rem, 6vw, 5.25rem);
+    font-weight: 400;
+    line-height: 0.94;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+    color: var(--ec-card-fg);
+  }
+
+  .ec-station-card__desc {
+    margin: 0;
+    max-width: 44ch;
+    font-size: 1.05rem;
+    line-height: 1.6;
+    opacity: 0.72;
+  }
+
+  .ec-station-card__aside {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    border-top: 1px solid var(--ec-card-line);
+    padding-top: 1.5rem;
+  }
+
+  .ec-station-card__name {
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--ec-red);
+  }
+
+  .ec-station-card__secondary {
+    margin: 0;
+    max-width: 32ch;
+    font-size: 1rem;
+    line-height: 1.55;
+    opacity: 0.78;
+  }
+
+  .ec-station-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.65rem;
+    margin-top: auto;
+    min-height: 3.1rem;
+    padding: 0.9rem 1.6rem;
+    background: var(--ec-ink);
+    color: var(--ec-cream);
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 1px solid var(--ec-ink);
+    transition:
+      background-color var(--ec-card-transition),
+      border-color var(--ec-card-transition),
+      color var(--ec-card-transition);
+  }
+
+  .ec-station-card__cta:hover {
+    background: var(--ec-red);
+    border-color: var(--ec-red);
+    color: var(--ec-cream);
+  }
+
+  .ec-station-card__cta:focus-visible {
+    outline: 2px solid var(--ec-red);
+    outline-offset: 4px;
+  }
+
+  .ec-station-card__arrow {
+    font-size: 1rem;
+    line-height: 1;
+    transition: transform var(--ec-card-transition);
+  }
+
+  .ec-station-card__cta:hover .ec-station-card__arrow {
+    transform: translate(3px, -3px);
+  }
+
+  @media screen and (min-width: 750px) {
+    .ec-station-card__panel {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 4fr);
+      align-items: stretch;
+    }
+
+    .ec-station-card__aside {
+      border-top: 0;
+      border-left: 1px solid var(--ec-card-line);
+      padding-top: 0;
+      padding-left: clamp(1.5rem, 3vw, 2.75rem);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .ec-station-card__cta,
+    .ec-station-card__arrow {
+      transition: none;
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Tarjeta Mi Estación",
+  "tag": "section",
+  "class": "ec-station-card-section",
+  "settings": [
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Etiqueta superior",
+      "default": "Una herramienta para tu negocio"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Título",
+      "default": "Tu estación. Tus reglas."
+    },
+    {
+      "type": "textarea",
+      "id": "description",
+      "label": "Descripción",
+      "default": "Organiza tus esenciales y prepara tu siguiente pedido desde un solo lugar."
+    },
+    {
+      "type": "text",
+      "id": "name",
+      "label": "Nombre de la herramienta",
+      "default": "Mi Estación"
+    },
+    {
+      "type": "textarea",
+      "id": "secondary_text",
+      "label": "Texto secundario",
+      "default": "Crea tu lista de equipamiento y reposición."
+    },
+    {
+      "type": "header",
+      "content": "Botón"
+    },
+    {
+      "type": "text",
+      "id": "cta_label",
+      "label": "Texto del botón",
+      "default": "Configurar mi estación"
+    },
+    {
+      "type": "url",
+      "id": "cta_link",
+      "label": "Enlace del botón"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Fondo de la tarjeta",
+      "default": "#D6C9AD"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color del texto",
+      "default": "#0B0B0B"
+    },
+    {
+      "type": "range",
+      "id": "corner_radius",
+      "label": "Radio de esquinas",
+      "min": 0,
+      "max": 48,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "page-width"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Relleno superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Relleno inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 72
+    }
+  ],
+  "presets": [
+    {
+      "name": "Tarjeta Mi Estación",
+      "category": "El Chacho"
+    }
+  ]
+}
+{% endschema %}

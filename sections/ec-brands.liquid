@@ -23,41 +23,45 @@
       <p class="ec-eyebrow">{{ section.settings.eyebrow | escape }}</p>
     {% endif %}
 
-    <div class="ec-brands__grid">
-      {% for block in section.blocks %}
-        {% if block.settings.name != blank or block.settings.image != blank %}
-          {%- liquid
-            assign url = block.settings.link
-            assign name = block.settings.name
-            assign image = block.settings.image
-          -%}
-          {% if url != blank %}
-            <a class="ec-brand" href="{{ url }}" aria-label="{{ name | escape }}">
-          {% else %}
-            <div class="ec-brand">
-          {% endif %}
-            {% if image != blank %}
-              {{
-                image
-                | image_url: width: 480
-                | image_tag:
-                  loading: 'lazy',
-                  widths: '160, 240, 320, 480',
-                  sizes: '160px',
-                  class: 'ec-brand__img',
-                  alt: name | default: image.alt
-              }}
+    {% if has_brand %}
+      <div class="ec-brands__grid">
+        {% for block in section.blocks %}
+          {% if block.settings.name != blank or block.settings.image != blank %}
+            {%- liquid
+              assign url = block.settings.link
+              assign name = block.settings.name
+              assign image = block.settings.image
+            -%}
+            {% if url != blank %}
+              <a class="ec-brand" href="{{ url }}" aria-label="{{ name | escape }}">
             {% else %}
-              <span class="ec-brand__name">{{ name | escape }}</span>
+              <div class="ec-brand">
             {% endif %}
-          {% if url != blank %}
-            </a>
-          {% else %}
-            </div>
+              {% if image != blank %}
+                {{
+                  image
+                  | image_url: width: 480
+                  | image_tag:
+                    loading: 'lazy',
+                    widths: '160, 240, 320, 480',
+                    sizes: '160px',
+                    class: 'ec-brand__img',
+                    alt: name | default: image.alt
+                }}
+              {% else %}
+                <span class="ec-brand__name">{{ name | escape }}</span>
+              {% endif %}
+            {% if url != blank %}
+              </a>
+            {% else %}
+              </div>
+            {% endif %}
           {% endif %}
-        {% endif %}
-      {% endfor %}
-    </div>
+        {% endfor %}
+      </div>
+    {% elsif request.design_mode %}
+      <p class="ec-brands__placeholder">Carga logos o nombres de marcas para mostrar esta franja.</p>
+    {% endif %}
   </div>
 {% endif %}
 
@@ -67,6 +71,17 @@
     flex-wrap: wrap;
     align-items: center;
     gap: 2rem 3.5rem;
+  }
+
+  .ec-brands__placeholder {
+    margin: 0;
+    padding: 1.5rem;
+    border: 1px dashed var(--ec-line-light);
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(244 239 229 / 0.55);
   }
 
   .ec-brand {

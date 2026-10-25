@@ -1,0 +1,207 @@
+{% comment %}
+  Banda de imagen editorial del rediseño El Chacho.
+  Imagen a sangre, sin texto, reutilizable para campañas y para el futuro portafolio.
+  Usa la misma imagen en móvil salvo que se cargue una variante específica.
+{% endcomment %}
+
+{%- liquid
+  assign image = section.settings.image
+  assign image_mobile = section.settings.image_mobile
+  assign alt_text = section.settings.alt | default: image.alt | default: ''
+  assign ratio = section.settings.aspect_ratio | default: '21 / 9'
+  assign ratio_mobile = section.settings.aspect_ratio_mobile | default: '4 / 5'
+-%}
+
+{% if image != blank %}
+  <div
+    class="ec-editorial section section--{{ section.settings.section_width }} spacing-style"
+    style="{% render 'spacing-padding', settings: section.settings %} --ec-editorial-ratio: {{ ratio }}; --ec-editorial-ratio-mobile: {{ ratio_mobile }};"
+    {{ section.shopify_attributes }}
+  >
+    {%- capture editorial_image -%}
+      <picture class="ec-editorial__media">
+        {% if image_mobile != blank %}
+          <source
+            media="(max-width: 749px)"
+            srcset="
+              {{ image_mobile | image_url: width: 480 }} 480w,
+              {{ image_mobile | image_url: width: 750 }} 750w,
+              {{ image_mobile | image_url: width: 1100 }} 1100w
+            "
+          >
+        {% endif %}
+        {{
+          image
+          | image_url: width: 3840
+          | image_tag:
+            loading: 'lazy',
+            widths: '480, 750, 1100, 1500, 2000, 2600, 3200, 3840',
+            sizes: '100vw',
+            class: 'ec-editorial__img',
+            alt: alt_text
+        }}
+      </picture>
+    {%- endcapture -%}
+
+    {% if section.settings.link != blank %}
+      <a class="ec-editorial__link" href="{{ section.settings.link }}">
+        {{- editorial_image -}}
+      </a>
+    {% else %}
+      {{ editorial_image }}
+    {% endif %}
+  </div>
+{% elsif request.design_mode %}
+  <div
+    class="ec-editorial ec-editorial--empty section section--{{ section.settings.section_width }}"
+    {{ section.shopify_attributes }}
+  >
+    <p>Selecciona una imagen para la banda editorial.</p>
+  </div>
+{% endif %}
+
+{% stylesheet %}
+  .ec-editorial {
+    background-color: var(--ec-ink);
+  }
+
+  .ec-editorial__link {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .ec-editorial__media {
+    display: block;
+    width: 100%;
+    aspect-ratio: var(--ec-editorial-ratio, 21 / 9);
+    overflow: hidden;
+  }
+
+  .ec-editorial__img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .ec-editorial--empty {
+    display: grid;
+    place-items: center;
+    min-height: 240px;
+    border: 1px dashed var(--ec-line-light);
+  }
+
+  .ec-editorial--empty p {
+    margin: 0;
+    font-family: var(--font-subheading--family);
+    font-size: 0.78rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: rgb(244 239 229 / 0.55);
+  }
+
+  @media screen and (max-width: 749px) {
+    .ec-editorial__media {
+      aspect-ratio: var(--ec-editorial-ratio-mobile, 4 / 5);
+    }
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Imagen editorial",
+  "tag": "section",
+  "class": "ec-editorial-image-section",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Imagen"
+    },
+    {
+      "type": "image_picker",
+      "id": "image_mobile",
+      "label": "Imagen móvil (opcional)",
+      "info": "Si se deja vacía se usa la imagen principal."
+    },
+    {
+      "type": "text",
+      "id": "alt",
+      "label": "Texto alternativo",
+      "info": "Si se deja vacío se usa el texto alternativo de la imagen."
+    },
+    {
+      "type": "url",
+      "id": "link",
+      "label": "Enlace (opcional)"
+    },
+    {
+      "type": "header",
+      "content": "Diseño"
+    },
+    {
+      "type": "select",
+      "id": "section_width",
+      "label": "Ancho de la sección",
+      "options": [
+        { "value": "page-width", "label": "Página" },
+        { "value": "full-width", "label": "Completo" }
+      ],
+      "default": "full-width"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio",
+      "label": "Proporción en escritorio",
+      "options": [
+        { "value": "21 / 9", "label": "21:9 (panorámica)" },
+        { "value": "16 / 9", "label": "16:9" },
+        { "value": "3 / 2", "label": "3:2" },
+        { "value": "1 / 1", "label": "1:1" },
+        { "value": "4 / 5", "label": "4:5 (vertical)" }
+      ],
+      "default": "21 / 9"
+    },
+    {
+      "type": "select",
+      "id": "aspect_ratio_mobile",
+      "label": "Proporción en móvil",
+      "options": [
+        { "value": "4 / 5", "label": "4:5 (vertical)" },
+        { "value": "1 / 1", "label": "1:1" },
+        { "value": "16 / 9", "label": "16:9" },
+        { "value": "21 / 9", "label": "21:9 (panorámica)" }
+      ],
+      "default": "4 / 5"
+    },
+    {
+      "type": "range",
+      "id": "padding-block-start",
+      "label": "Relleno superior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "padding-block-end",
+      "label": "Relleno inferior",
+      "min": 0,
+      "max": 160,
+      "step": 4,
+      "unit": "px",
+      "default": 0
+    }
+  ],
+  "presets": [
+    {
+      "name": "Imagen editorial",
+      "category": "El Chacho"
+    }
+  ]
+}
+{% endschema %}

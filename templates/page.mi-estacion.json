@@ -1,0 +1,44 @@
+{
+  "sections": {
+    "main": {
+      "type": "ec-station-configurator",
+      "settings": {
+        "eyebrow": "Configurador de pedido",
+        "title": "Mi Estación",
+        "intro": "Selecciona tus esenciales, ajusta cantidades y añade todo a tu carrito desde un solo lugar.",
+        "category_1_label": "Herramientas",
+        "category_1_collection": "herramientas",
+        "category_1_filter": "",
+        "category_2_label": "Cuidados",
+        "category_2_collection": "insumos",
+        "category_2_filter": "wax,gel,cologne,splash,exfoliante,powder,aceite,enfriador,talco",
+        "category_3_label": "Accesorios",
+        "category_3_collection": "insumos",
+        "category_3_filter": "guante",
+        "category_4_label": "Consumibles",
+        "category_4_collection": "insumos",
+        "category_4_filter": "navaja,cuchilla,cuello,papel",
+        "dedupe_products": true,
+        "show_unavailable": true,
+        "summary_title": "Tu estación",
+        "add_label": "Añadir al carrito",
+        "loading_label": "Añadiendo…",
+        "view_cart_label": "Ver carrito",
+        "clear_label": "Limpiar selección",
+        "empty_summary": "Aún no has añadido productos.",
+        "empty_message": "No hay productos en esta categoría.",
+        "empty_config_message": "Configura las colecciones del configurador.",
+        "success_message": "Productos añadidos al carrito.",
+        "error_message": "No pudimos añadir los productos. Intenta de nuevo.",
+        "restored_message": "Recuperamos tu selección guardada en este navegador.",
+        "unavailable_message": "Algunos productos de tu selección ya no están disponibles.",
+        "tax_note": "Impuestos y envío se calculan en el checkout.",
+        "storage_notice": "Tu selección se guarda en este navegador. No se sincroniza con tu cuenta.",
+        "section_width": "page-width",
+        "padding-block-start": 72,
+        "padding-block-end": 96
+      }
+    }
+  },
+  "order": ["main"]
+}
