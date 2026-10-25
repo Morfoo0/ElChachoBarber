@@ -7,8 +7,8 @@
 {% style %}
   /* Hero del home: altura editorial y composición abajo-izquierda */
   #MainContent[data-template='index'] .slideshow-section slideshow-component {
-    --slide-min-height: 76svh !important;
-    --slide-min-height-desktop: 84svh !important;
+    --slide-min-height: var(--ec-hero-height-mobile, 78svh) !important;
+    --slide-min-height-desktop: var(--ec-hero-height-desktop, 92svh) !important;
   }
 
   #MainContent[data-template='index'] .slideshow-section slideshow-slide .slide__image-container::after {
@@ -73,7 +73,7 @@
     }
 
     #MainContent[data-template='index'] .slideshow-section slideshow-component {
-      --slide-min-height: 78svh !important;
+      --slide-min-height: var(--ec-hero-height-mobile, 78svh) !important;
     }
   }
 {% endstyle %}

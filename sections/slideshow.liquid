@@ -76,7 +76,7 @@
 ></div>
 <div
   class="slideshow-section spacing-style section {{ section_width_class }}{% if section.settings.background_color != blank %} color-custom-{{ section.id }}{% endif %} disable-section-top-offset"
-  style="{% render 'spacing-padding', settings: section.settings %}; --slideshow-gap: {{ section.settings.slideshow_gap }}px;{% if rounded_slide_corners %} --corner-radius: {{ section.settings.corner_radius }}px;{% endif %}"
+  style="{% render 'spacing-padding', settings: section.settings %}; --slideshow-gap: {{ section.settings.slideshow_gap }}px;{% if rounded_slide_corners %} --corner-radius: {{ section.settings.corner_radius }}px;{% endif %} --ec-hero-height-desktop: {{ section.settings.home_hero_height_desktop | default: 92 }}svh; --ec-hero-height-mobile: {{ section.settings.home_hero_height_mobile | default: 78 }}svh;"
 >
   <h2 class="visually-hidden">{{ 'accessibility.slideshow' | t }}</h2>
   {% render 'slideshow',
@@ -279,6 +279,30 @@
       ],
       "default": "medium",
       "label": "t:settings.media_height"
+    },
+    {
+      "type": "header",
+      "content": "Hero del home"
+    },
+    {
+      "type": "range",
+      "id": "home_hero_height_desktop",
+      "label": "Altura del hero en escritorio",
+      "min": 70,
+      "max": 110,
+      "step": 1,
+      "unit": "svh",
+      "default": 92
+    },
+    {
+      "type": "range",
+      "id": "home_hero_height_mobile",
+      "label": "Altura del hero en móvil",
+      "min": 60,
+      "max": 100,
+      "step": 1,
+      "unit": "svh",
+      "default": 78
     },
     {
       "type": "select",
